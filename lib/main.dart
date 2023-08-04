@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+// flutter_dotenv 라이브러리의 기능
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'home_tap.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: 'assets/.env');
+
+  // 라이브러리 메모리에 appKey 등록
+  // kakao JavaScript 키
+  AuthRepository.initialize(appKey: dotenv.env['KAKAOKEY'] ?? '');
+  
   runApp(const MyApp());
 }
 
