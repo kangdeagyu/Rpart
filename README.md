@@ -1,16 +1,26 @@
-# fluttermainproject
+# 더조은 컴퓨터 아카데미 학원 프로젝트 입니다.
 
-A new Flutter project.
+어플은 기존에 있는 어플과 다르게 올해(1월 ~ 6월) 거래가를 기반으로 실시간 예측가(?)를 통해 메인홈페이지와 위시리스트 더보기(???) 탭을 통해 앱을 사용하며,  설정 되어 있는 지역에 아파트 가격을 보여주는 어플입니다.
+어플의 지도에서는 닷트를 표현하여 해당 지역에 매물을 표시해주고 닷트를 클릭해주면 
+firebase를 통해서 데이터(관심목록,조건검색)를 보여줄 수 있으며, Sqlite 최근검색어을 통해 사용자의 편의를 제공하고 있습니다
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+### Skill
 
-A few resources to get you started if this is your first Flutter project:
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=git,github,flutter,vscode,mysql,r,spring,sqlite,firebase,dart," />
+  </a>
+</p>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### People
+
+| 팀원    | Part          |
+| ------ | ------------  |
+| 강대규  |               |
+| 김종진  |               |
+| 김수민  |               |
+| 오성민  |               | 
+| 최동현  |               |
+
