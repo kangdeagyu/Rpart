@@ -7,13 +7,8 @@ class ApartmentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('d'),
-        centerTitle: true,
-        elevation: 0, // 앱 바 그림자 제거
-      ),
-      body: const ApartmentWidget()
+    return const Scaffold(
+      body: ApartmentWidget()
     );
   }
 }
