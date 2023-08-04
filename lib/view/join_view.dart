@@ -39,7 +39,6 @@ class JoinPageState extends State<JoinPage> {
                 ),
               ),
               TextField(
-                onChanged: (value) {},
                 controller: passwordController,
                 decoration: const InputDecoration(
                   labelText: '비밀번호를 입력해주세요',
@@ -89,6 +88,7 @@ class JoinPageState extends State<JoinPage> {
                           );
                         } else {
                           // 이전 화면으로 돌아가기
+                          insertAction();
                           Get.back();
                         }
                       },
@@ -117,7 +117,7 @@ class JoinPageState extends State<JoinPage> {
       ),
     );
   }
-insertAction() async {
+  insertAction() async {
     var url = Uri.parse(
         'http://localhost:8080/Flutter/login_insert_flutter.jsp?userid=${useridController.text}&password=${passwordController.text}&address=${addressController.text}&phone=${phoneController.text}');
     await http.get(url);
@@ -135,7 +135,7 @@ insertAction() async {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.pop(context);
+                // Navigator.pop(context);
               },
               child: const Text('OK'),
             ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttermainproject/view/apartment_view.dart';
 import 'package:fluttermainproject/view/join_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
@@ -14,9 +15,11 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   late List data;
-
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController userIdController;
   late TextEditingController passwordController;
+  
+  late String userid;
 
   @override
   void initState() {
@@ -25,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     userIdController = TextEditingController();
     passwordController = TextEditingController();
     getJSONData();
+    userid = '';
   }
 
   @override
@@ -33,56 +37,37 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text('Login'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: userIdController,
-              decoration: const InputDecoration(
-                labelText: '아이디를 입력해주세요',
+      body: Form(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: userIdController,
+                decoration: const InputDecoration(
+                  labelText: '아이디를 입력해주세요',
+                ),
               ),
-            ),
-            TextField(
-              controller: passwordController,
-              decoration: const InputDecoration(
-                labelText: '비밀번호를 입력해주세요',
+              TextFormField(
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  labelText: '비밀번호를 입력해주세요',
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Get.to(const Calender); <- 작성페이지 이름 변경 필요
-                if (userIdController.text.trim().isEmpty) {
-                  // 유저 아이디 필드가 비어있을 경우
-                  Get.snackbar(
-                    '빈칸을 채워주세요',
-                    '아이디를 입력해주세요',
-                    snackPosition: SnackPosition.TOP,
-                    duration: const Duration(seconds: 2),
-                    backgroundColor: Colors.teal,
-                  );
-                } else if (passwordController.text.trim().isEmpty) {
-                  // 비밀번호 필드가 비어있을 경우
-                  Get.snackbar(
-                    '빈칸을 채워주세요',
-                    '비밀번호를 입력해주세요',
-                    snackPosition: SnackPosition.TOP,
-                    duration: const Duration(seconds: 2),
-                    backgroundColor: Colors.teal,
-                  );
-                } else {
-                  // Get.to(ApartmentView()); 
-                }
-              },
-              child: const Text('로그인'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Get.to(JoinPage());
-              },
-              child: const Text('회원가입'),
-            ),
-          ],
+              ElevatedButton(
+                onPressed: () {
+                  // = getJSONData()data.[Index]['userid'];
+                },
+                child: const Text('로그인이라는 건 없다!'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Get.to(JoinPage());
+                },
+                child: const Text('회원가입'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -99,4 +84,25 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {});
     print(response.body);
   }
+
+
+  //  if (userIdController.text.trim().isEmpty) {
+  //                   // 유저 아이디 필드가 비어있을 경우
+  //                   Get.snackbar(
+  //                     '빈칸을 채워주세요',
+  //                     '아이디를 입력해주세요',
+  //                     snackPosition: SnackPosition.TOP,
+  //                     duration: const Duration(seconds: 2),
+  //                     backgroundColor: Colors.teal,
+  //                   );
+  //                 } else if (passwordController.text.trim().isEmpty) {
+  //                   // 비밀번호 필드가 비어있을 경우
+  //                   Get.snackbar(
+  //                     '빈칸을 채워주세요',
+  //                     '비밀번호를 입력해주세요',
+  //                     snackPosition: SnackPosition.TOP,
+  //                     duration: const Duration(seconds: 2),
+  //                     backgroundColor: Colors.teal,
+  //                   );
+  //                 }
 }
