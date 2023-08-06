@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttermainproject/widget/wishlist_widget.dart';
 
 class WishlistView extends StatelessWidget {
   const WishlistView({super.key});
@@ -7,8 +8,9 @@ class WishlistView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('wish'),
+        title: const Text('WishList'),
       ),
+      body: WishlistWidget(),
     );
   }
 }
