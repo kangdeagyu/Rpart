@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/model/search/search_sqlitedb.dart';
+import 'package:fluttermainproject/widget/apartment_chart_widget.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
@@ -43,18 +44,13 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
               
               // 마커를 클릭했을 때 호출
               onMarkerTap: (markerId, latLng, zoomLevel) {
-                Get.defaultDialog(
-                    title: latLng.latitude.toString(), //  y
-                    middleText: latLng.longitude.toString(), //  x
-                    backgroundColor: const Color.fromARGB(255, 252, 252, 246),
-                    barrierDismissible: false,
-                    actions: [
-                      TextButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          child: const Text('Exit'))
-                    ]);
+                showModalBottomSheet(
+                  context: context, 
+                  isScrollControlled: true,
+                  builder: (context) {
+                    return const ApartmentChart();
+                  },
+                );
               },
               onMapCreated: ((controller) {
                 mapController = controller;
