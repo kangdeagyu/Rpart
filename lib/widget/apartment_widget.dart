@@ -89,6 +89,9 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
                   double longitude = position.longitude;
                   print("Latitude: $latitude, Longitude: $longitude");
 
+                  // 해당 위치로 맵 이동
+                  mapController.setCenter(LatLng(latitude, longitude));
+
                   // 여기서 필요한 로직을 추가하거나, 마커를 업데이트하거나 등의 작업을 수행할 수 있습니다.
                 } else {
                   // 위치 권한이 거부된 경우
