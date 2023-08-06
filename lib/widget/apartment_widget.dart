@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/model/search/search_sqlitedb.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
@@ -16,12 +17,14 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
   late KakaoMapController mapController;
   late TextEditingController searchController;
   DatabaseHandler handler = DatabaseHandler();
-
+  
   @override
   void initState() {
     super.initState();
     searchController = TextEditingController();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +34,15 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
         children: [
           SizedBox(
             // 화면 크기에 맞게 조절
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height / 1.08,
             width: MediaQuery.of(context).size.width,
             child: KakaoMap(
               mapTypeControl: true,
+              mapTypeControlPosition: ControlPosition.bottomRight,
               onMapTap: (latLng) => FocusScope.of(context).unfocus(),
+              
               // 마커를 클릭했을 때 호출
               onMarkerTap: (markerId, latLng, zoomLevel) {
-                // print('Marker ID: $markerId');
-                // print('Latitude: ${latLng.latitude}');  // y
-                // print('Longitude: ${latLng.longitude}');// x
-                // print('Zoom Level: $zoomLevel');
                 Get.defaultDialog(
                     title: latLng.latitude.toString(), //  y
                     middleText: latLng.longitude.toString(), //  x
@@ -69,6 +70,34 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
               markers: markers.toList(),
               // 지도의 중심좌표
               center: LatLng(37.516211, 127.018593),
+            ),
+          ),
+          // GPS
+          Positioned(
+            bottom: MediaQuery.of(context).size.height / 60,
+            child: IconButton(
+              style: IconButton.styleFrom(
+                backgroundColor: Colors.white
+              ),
+              onPressed: () async{
+                // 사용자 위치를 얻어옴
+                Position? position = await getCurrentLocation();
+
+                if (position != null) {
+                  // 위치 정보를 이용하여 원하는 동작 수행
+                  double latitude = position.latitude;
+                  double longitude = position.longitude;
+                  print("Latitude: $latitude, Longitude: $longitude");
+
+                  // 여기서 필요한 로직을 추가하거나, 마커를 업데이트하거나 등의 작업을 수행할 수 있습니다.
+                } else {
+                  // 위치 권한이 거부된 경우
+                  print("사용자가 위치 권한을 거부하였습니다.");
+                }
+              }, 
+              icon: const Icon(
+                Icons.gps_fixed
+              ),
             ),
           ),
           // 검색
@@ -194,3 +223,27 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
     );
   }
 }
+
+// 사용자 위치를 비동기적으로 얻어오는 함수
+Future<Position?> getCurrentLocation() async {
+  try {
+    // 위치 권한을 확인하고, 권한이 있는 경우 사용자의 현재 위치를 얻어옴
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return null;
+      }
+    }
+
+    // 사용자의 현재 위치를 얻어와서 반환
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+
+    return position;
+  } catch (e) {
+    return null;
+  }
+}
+
