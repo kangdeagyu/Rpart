@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttermainproject/model/wishlist_sqlite/wishlist_sqlitedb.dart';
+import 'package:fluttermainproject/viewmodel/wishlist_sqlitedb.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -12,6 +12,13 @@ class ApartmentChart extends StatefulWidget {
 
 class _ApartmentChartState extends State<ApartmentChart> {
   WishlistDatabaseHandler handler = WishlistDatabaseHandler();
+  late bool result;
+
+  @override
+  void initState() {
+    super.initState();
+    result = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +29,12 @@ class _ApartmentChartState extends State<ApartmentChart> {
           title: const Text("땡땡아파트"),
           actions: [
             FutureBuilder(
-              future: handler.queryWishListstar("땡땡아파트"),
+              future: handler.queryWishListstar("아파트"),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return IconButton(
                     onPressed: () {
-                      // 불러온 아파트 sqlite로 저장, 삭제
+                      // 불러온 아파트 sqlite로 저장
                       handler.insertWishList("땡땡아파트");
                       Get.snackbar(
                         'WishList', 
@@ -47,6 +54,7 @@ class _ApartmentChartState extends State<ApartmentChart> {
                   );
                 }else{
                   return IconButton(
+                    // 불러온 아파트 sqlite로 삭제
                     onPressed: () {
                       handler.deleteWishList("땡땡아파트");
                       Get.snackbar(

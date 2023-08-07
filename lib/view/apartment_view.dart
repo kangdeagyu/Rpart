@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttermainproject/widget/apartment_widget.dart';
+import 'package:fluttermainproject/widget/apartment/apartment_widget_map.dart';
 
 
 class ApartmentView extends StatelessWidget {
@@ -7,8 +7,8 @@ class ApartmentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: ApartmentWidget()
+    return Scaffold(
+      body: ApartmentWidgetMap()
     );
   }
 }

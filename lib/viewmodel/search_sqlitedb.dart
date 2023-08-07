@@ -1,8 +1,9 @@
 import 'package:fluttermainproject/model/search/search_sqlite.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseHandler {
+class DatabaseHandler extends GetxController {
   Future<Database> initiallizeDB() async {
     String path = await getDatabasesPath();
     return openDatabase(
@@ -21,6 +22,7 @@ class DatabaseHandler {
     final Database db = await initiallizeDB();
     final List<Map<String, Object?>> queryResults =
         await db.rawQuery('select * from search');
+    update();
     return queryResults.map((e) => SearchSql.fromMap(e)).toList();
   }
 
@@ -33,7 +35,7 @@ class DatabaseHandler {
       result = await db
           .rawInsert('insert into search(content) values (?)', [searchData]);    
     }
-
+    update();
     return result;
   }
 
