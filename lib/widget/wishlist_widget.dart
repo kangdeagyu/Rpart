@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttermainproject/model/wishlist_sqlite/wishlist_sqlitedb.dart';
+import 'package:fluttermainproject/viewmodel/wishlist_sqlitedb.dart';
 
 class WishlistWidget extends StatelessWidget {
   WishlistDatabaseHandler handler = WishlistDatabaseHandler();

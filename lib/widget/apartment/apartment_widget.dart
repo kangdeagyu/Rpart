@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fluttermainproject/model/search/search_sqlitedb.dart';
-import 'package:fluttermainproject/widget/apartment_chart_widget.dart';
+import 'package:fluttermainproject/viewmodel/search_sqlitedb.dart';
+import 'package:fluttermainproject/widget/apartment/apartment_chart_widget.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
@@ -61,7 +61,7 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
                   latLng: LatLng(37.493997700000, 127.031227700000),
                 ));
 
-                setState(() {});
+                //setState(() {});
               }),
               markers: markers.toList(),
               // 지도의 중심좌표
@@ -83,7 +83,6 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
                   // 위치 정보를 이용하여 원하는 동작 수행
                   double latitude = position.latitude;
                   double longitude = position.longitude;
-                  print("Latitude: $latitude, Longitude: $longitude");
 
                   // 해당 위치로 맵 이동
                   mapController.setCenter(LatLng(latitude, longitude));
@@ -91,7 +90,6 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
                   // 여기서 필요한 로직을 추가하거나, 마커를 업데이트하거나 등의 작업을 수행할 수 있습니다.
                 } else {
                   // 위치 권한이 거부된 경우
-                  print("사용자가 위치 권한을 거부하였습니다.");
                 }
               }, 
               icon: const Icon(
@@ -99,7 +97,7 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
               ),
             ),
           ),
-          // 검색
+          // 검색 창
           Positioned(
             // AppBar를 겹치도록 위치 조정
             top: MediaQuery.of(context).size.height / 14,
@@ -128,7 +126,7 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
                           // 최근 검색어 저장
                           handler.insertSearch(searchController.text.trim());
                           // 사용자 검색을 통해 위치 변경 해야됨 ******************************
-                          setState(() {});
+                          //setState(() {});
                         }
                       },
                       icon: const Icon(Icons.search),
@@ -168,7 +166,7 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
                               child: TextButton(
                                 onPressed: () {
                                   searchController.text = snapshot.data![index].content;
-                                  setState(() {});
+                                  //setState(() {});
                                 },
                                 style: ButtonStyle(
                                   minimumSize: MaterialStateProperty.all(Size.zero),
@@ -192,7 +190,7 @@ class _ApartmentWidgetState extends State<ApartmentWidget> {
                                         child: IconButton(
                                           onPressed: () {
                                             handler.deleteSearch(snapshot.data![index].seq!);
-                                            setState(() {});
+                                            //setState(() {});
                                           },
                                           icon: const Icon(
                                             Icons.close,
