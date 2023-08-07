@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttermainproject/firebase_options.dart';
 import 'package:get/get.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 // flutter_dotenv 라이브러리의 기능
@@ -9,11 +11,15 @@ import 'home_tap.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: 'assets/.env');
-
   // 라이브러리 메모리에 appKey 등록
   // kakao JavaScript 키
   AuthRepository.initialize(appKey: dotenv.env['KAKAOKEY'] ?? '');
   
+  // firebase 
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );  
   runApp(const MyApp());
 }
 

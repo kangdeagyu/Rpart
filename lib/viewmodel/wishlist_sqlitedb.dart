@@ -1,8 +1,9 @@
 import 'package:fluttermainproject/model/wishlist_sqlite/wishlist_sqllite.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class WishlistDatabaseHandler {
+class WishlistDatabaseHandler extends GetxController{
   Future<Database> initiallizeDB() async {
     String path = await getDatabasesPath();
     return openDatabase(
@@ -21,6 +22,7 @@ class WishlistDatabaseHandler {
     final Database db = await initiallizeDB();
     final List<Map<String, Object?>> queryResults =
         await db.rawQuery('select * from wishlist');
+    update();
     return queryResults.map((e) => WishlistSql.fromMap(e)).toList();
   }
 
@@ -28,6 +30,7 @@ class WishlistDatabaseHandler {
     final Database db = await initiallizeDB();
     final List<Map<String, Object?>> queryResults =
         await db.rawQuery('select * from wishlist where aptname = ?', [aptData]);
+    update();
     return queryResults.map((e) => WishlistSql.fromMap(e)).toList();
   }
 
@@ -40,7 +43,6 @@ class WishlistDatabaseHandler {
       result = await db
           .rawInsert('insert into wishlist(aptname) values (?)', [aptData]);    
     }
-
     return result;
   }
 

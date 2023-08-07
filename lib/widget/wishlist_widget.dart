@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/viewmodel/wishlist_sqlitedb.dart';
+import 'package:get/get.dart';
 
 class WishlistWidget extends StatelessWidget {
-  WishlistDatabaseHandler handler = WishlistDatabaseHandler();
+  WishlistDatabaseHandler handler = Get.put(WishlistDatabaseHandler());
 
   WishlistWidget({super.key});
 
