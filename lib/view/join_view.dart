@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fluttermainproject/view/login_view.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
 class JoinPage extends StatefulWidget {
   const JoinPage({super.key});
 
@@ -9,6 +12,7 @@ class JoinPage extends StatefulWidget {
 }
 
 class JoinPageState extends State<JoinPage> {
+  late List data;
   late TextEditingController useridController; // 아이디
   late TextEditingController passwordController; // 비밀번호
   late TextEditingController addressController; //주소
@@ -17,11 +21,15 @@ class JoinPageState extends State<JoinPage> {
   @override
   void initState() {
     super.initState();
+    data = [];
     useridController = TextEditingController();
     passwordController = TextEditingController();
     addressController = TextEditingController();
     phoneController = TextEditingController();
   }
+
+  
+  
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +69,7 @@ class JoinPageState extends State<JoinPage> {
                   children: [
                     ElevatedButton(
                       //텍스트 필드 미입력시 팝업
-                      onPressed: () {
+                      onPressed: () async{
                         if (useridController.text.trim().isEmpty) {
                           Get.snackbar(
                             '알림',
@@ -87,9 +95,9 @@ class JoinPageState extends State<JoinPage> {
                             snackPosition: SnackPosition.BOTTOM,
                           );
                         } else {
-                          // 이전 화면으로 돌아가기
-                          insertAction();
-                          Get.back();
+                        getJSONData();
+                        insertAction();
+ 
                         }
                       },
                       child: const Text('회원가입'),
@@ -99,31 +107,50 @@ class JoinPageState extends State<JoinPage> {
                       child: Row(
                         children: [
                           ElevatedButton(
-                                      onPressed: () {
-                                        Get.back();
-                                      },
-                                      child:const Text('취소하기')),
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: const Text('취소하기')),
                         ],
                       ),
                     )
                   ],
                 ),
               ),
-              
-                
             ],
           ),
         ),
       ),
     );
   }
+
   insertAction() async {
     var url = Uri.parse(
         'http://localhost:8080/Flutter/login_insert_flutter.jsp?userid=${useridController.text}&password=${passwordController.text}&address=${addressController.text}&phone=${phoneController.text}');
     await http.get(url);
-    _showDialog();
+    
   }
-  
+ getJSONData() async {
+    var url = Uri.parse(
+        'http://localhost:8080/Flutter/login_select_flutter.jsp?userid=${useridController.text}&password=${passwordController.text}'); //uri는 정보를 주고 가져오는 것
+    var response = await http.get(url);
+    data.clear();
+    var dataConvertedJSON = json.decode(utf8.decode(response.bodyBytes));
+    List result = dataConvertedJSON['results'];
+
+
+    data.addAll(result);
+    setState(( ) {});
+    if(result.isNotEmpty){
+     Get.snackbar(
+      '회원가입에 실패하셨습니다.',
+      '동일한 아이디가 존재 합니다.',
+      );
+    }else {
+      Get.to(LoginPage());
+      _showDialog();
+    }
+  }
   _showDialog() {
     showDialog(
       context: context,
