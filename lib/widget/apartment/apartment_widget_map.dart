@@ -113,7 +113,7 @@ class ApartmentWidgetMap extends StatelessWidget {
                   double latitude = position.latitude;
                   double longitude = position.longitude;
                   // 해당 위치로 맵 이동
-                  mapController!.setCenter(LatLng(latitude, longitude));
+                  mapController?.setCenter(LatLng(latitude, longitude));
                 } else {
                   // 위치 권한이 거부된 경우
                 }

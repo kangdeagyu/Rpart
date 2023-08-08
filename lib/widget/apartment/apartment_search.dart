@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/viewmodel/search_sqlitedb.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class ApartmentSearch extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
   DatabaseHandler handler = Get.put(DatabaseHandler());
+  KakaoMapController? mapController;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,29 @@ class ApartmentSearch extends StatelessWidget {
                     // 최근 검색어 저장
                     handler.insertSearch(searchController.text.trim());
                     // 사용자 검색을 통해 위치 변경 해야됨 ******************************
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                        .collection('apartment')
+                        .where('단지명', isGreaterThanOrEqualTo: searchController.text.trim())
+                        .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: Text('dd'),
+                          );
+                        }
+                        // 데이터가 있을 때, 해당 위치로 지도를 이동시키기
+                        if (snapshot.hasData) {
+                          print('ddd');
+                          final document = snapshot.data!.docs.first;
+                          double latitude = document['위도'];
+                          double longitude = document['경도'];
+                          print(latitude);
+                          mapController?.setCenter(LatLng(latitude, longitude));
+                        }
+                        return Text('dd');
+                      },
+                    );
                   }
                 },
                 icon: const Icon(Icons.search),
@@ -100,7 +126,6 @@ class ApartmentSearch extends StatelessWidget {
                                       child: IconButton(
                                         onPressed: () {
                                           handler.deleteSearch(snapshot.data![index].seq!);
-                                          //setState(() {});
                                         },
                                         icon: const Icon(
                                           Icons.close,

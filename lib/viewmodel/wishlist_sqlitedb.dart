@@ -26,13 +26,20 @@ class WishlistDatabaseHandler extends GetxController{
     return queryResults.map((e) => WishlistSql.fromMap(e)).toList();
   }
 
-  Future<List<WishlistSql>> queryWishListstar(String aptData) async {
-    final Database db = await initiallizeDB();
-    final List<Map<String, Object?>> queryResults =
-        await db.rawQuery('select * from wishlist where aptname = ?', [aptData]);
-    update();
+ Future<List<WishlistSql>> queryWishListstar(String aptData) async {
+  final Database db = await initiallizeDB();
+  final List<Map<String, Object?>> queryResults =
+      await db.rawQuery('select aptname from wishlist where aptname = ?', [aptData]);
+  update();
+
+  // queryResults가 비어있는지 여부에 따라 데이터가 있는지 확인할 수 있습니다.
+  if (queryResults.isEmpty) {
+    return []; // 데이터가 없는 경우 빈 리스트 반환
+  } else {
     return queryResults.map((e) => WishlistSql.fromMap(e)).toList();
   }
+}
+
 
   Future<int> insertWishList(String aptData) async {
     int result = 0;
@@ -43,6 +50,7 @@ class WishlistDatabaseHandler extends GetxController{
       result = await db
           .rawInsert('insert into wishlist(aptname) values (?)', [aptData]);    
     }
+    update();
     return result;
   }
 
@@ -50,6 +58,7 @@ class WishlistDatabaseHandler extends GetxController{
   Future<void> deleteWishList(String aptData) async {
     final Database db = await initiallizeDB();
     await db.rawDelete('delete from wishlist where aptname = ?', [aptData]);
+    update();
   }
 
 
