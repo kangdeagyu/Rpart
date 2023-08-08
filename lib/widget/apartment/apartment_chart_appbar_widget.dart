@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:fluttermainproject/model/obs/wishlistcontoller.dart';
+import 'package:fluttermainproject/model/wishlist_sqlite/wishlist_sqllite.dart';
 import 'package:fluttermainproject/widget/apartment/apartment_chart_body_widget.dart';
 import 'package:get/get.dart';
 import 'package:fluttermainproject/model/obs/apartmentcontroller.dart';
 import 'package:fluttermainproject/viewmodel/wishlist_sqlitedb.dart';
 
 class ApartmentChartWidget extends StatelessWidget {
-  final wishlistController = Get.put(WishListControllerObs());
   WishlistDatabaseHandler handler = Get.put(WishlistDatabaseHandler());
 
-  ApartmentChartWidget({super.key});
-  
+  ApartmentChartWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-
-    // Getx로부터 데이터를 가져옵니다.
-    final apartmentName = Get.find<ApartmentControllerObs>().apartmentName.value;
-    //
-    final wishlistStar = Get.find<WishListControllerObs>().apartmentStar.value;
+    final apartmentName =
+        Get.find<ApartmentControllerObs>().apartmentName.value;
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
@@ -27,34 +23,42 @@ class ApartmentChartWidget extends StatelessWidget {
           actions: [
             GetBuilder<WishlistDatabaseHandler>(
               builder: (controller) {
-                return IconButton(
-                  onPressed: () {
-                    if (wishlistStar == 'false') {
-                      handler.insertWishList(apartmentName);
-                      Get.snackbar(
-                        'WishList',
-                        'WishList에 추가 되었습니다.',
-                        snackPosition: SnackPosition.BOTTOM,
-                        duration: const Duration(seconds: 2),
-                        backgroundColor: Colors.yellowAccent,
+                return FutureBuilder<List<WishlistSql>>(
+                  future: handler.queryWishListstar(apartmentName),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data!.isEmpty) {
+                      return IconButton(
+                        onPressed: () {
+                          handler.insertWishList(apartmentName);
+                          Get.snackbar(
+                            'WishList',
+                            'WishList에 추가 되었습니다.',
+                            snackPosition: SnackPosition.BOTTOM,
+                            duration: const Duration(seconds: 2),
+                            backgroundColor: Colors.yellowAccent,
+                          );
+                        },
+                        icon: const Icon(Icons.star_border),
                       );
-                      wishlistController.setApartmentStar('true');
                     } else {
-                      handler.deleteWishList(apartmentName);
-                      Get.snackbar(
-                        'WishList',
-                        'WishList가 취소 되었습니다.',
-                        snackPosition: SnackPosition.BOTTOM,
-                        duration: const Duration(seconds: 2),
-                        backgroundColor: Colors.yellowAccent,
+                      return IconButton(
+                        onPressed: () {
+                          handler.deleteWishList(apartmentName);
+                          Get.snackbar(
+                            'WishList',
+                            'WishList가 취소 되었습니다.',
+                            snackPosition: SnackPosition.BOTTOM,
+                            duration: const Duration(seconds: 2),
+                            backgroundColor: Colors.yellowAccent,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                        ),
                       );
-                      wishlistController.setApartmentStar('false');
                     }
                   },
-                  icon: Icon(
-                    Icons.star,
-                    color: wishlistStar == 'true' ? Colors.yellow : Colors.black,
-                  ),
                 );
               },
             ),
