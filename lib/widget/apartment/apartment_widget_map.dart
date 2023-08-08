@@ -83,18 +83,12 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                 mapTypeControl: true,
                 mapTypeControlPosition: ControlPosition.bottomRight,
                 onMapTap: (latLng) => FocusScope.of(context).unfocus(),
-                zoomControl: true,
-                zoomControlPosition: ControlPosition.bottomLeft,
                 customOverlays: markers.map((marker) {
-              
                   return CustomOverlay(
-                    customOverlayId: marker.markerId,
-                    latLng: LatLng(
-                      marker.latLng.latitude,
-                      marker.latLng.longitude
-                    ), 
+                    customOverlayId: marker.markerId, 
+                    latLng: LatLng(marker.latLng.latitude + 0.0018, marker.latLng.longitude), 
                     content: '<div class="message-box" style="background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; position: relative;">' +
-                      '<div class="box-title" >${marker.infoWindowContent}</div>' +
+                      '<div class="box-title">${marker.infoWindowContent}</div>' +
                       '<div class="box-content">${marker.infoWindowContent}</div>' +
                       '<div class="arrow-down"></div>' +
                     '</div>' +
@@ -113,17 +107,18 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     '</style>',
                       );
                   }).toList(),
-                        
+                
                 // 마커를 클릭했을 때 호출
                 onMarkerTap: (markerId, latLng, zoomLevel) {
                   // 선택된 마커의 infoWindowContent 값을 가져옴
                   String apartmentName = markers
                       .firstWhere((marker) => marker.markerId == markerId)
                       .infoWindowContent;
-              
+
                   // Getx로 데이터를 보냅니다.
                   apartmentController.setApartmentName(apartmentName);
                   
+              
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
@@ -147,10 +142,9 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
           ),
         // GPS
           Positioned(
-            bottom: MediaQuery.of(context).size.height / 4,
+            bottom: MediaQuery.of(context).size.height / 60,
             child: IconButton(
-              color: Colors.white,
-              style: IconButton.styleFrom(backgroundColor: Colors.indigoAccent),
+              style: IconButton.styleFrom(backgroundColor: Colors.white),
               onPressed: () async {
                 // 사용자 위치를 얻어옴
                 Position? position = await gps.getCurrentLocation();
@@ -159,9 +153,6 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                   double latitude = position.latitude;
                   double longitude = position.longitude;
                   // 해당 위치로 맵 이동
-                  List<Marker> nawhere = [];
-                  nawhere.add(Marker(markerId: 'na', latLng: LatLng(latitude, longitude) ));
-                  mapController?.addMarker(markers: nawhere);
                   mapController?.setCenter(LatLng(latitude, longitude));
                 } else {
                   // 위치 권한이 거부된 경우
@@ -176,4 +167,3 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
       ));
   }
 }
-
