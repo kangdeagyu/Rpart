@@ -70,13 +70,11 @@ class JoinPageState extends State<JoinPage> {
                         var url = Uri.parse(
                             'http://localhost:8080/Flutter/dup_check_select_flutter.jsp?userid=${useridController.text}'); //uri는 정보를 주고 가져오는 것
                         var response = await http.get(url);
-                        data.clear();
                         var dataConvertedJSON =
                             json.decode(utf8.decode(response.bodyBytes));
                         String result = dataConvertedJSON['result'];
-                        setState(() {});
                         print(result);
-                        if (result == 'fall') {
+                        if (result == 'success') {
                           Get.snackbar(
                             '회원가입에 실패하셨습니다.',
                             '동일한 아이디가 존재 합니다.',
