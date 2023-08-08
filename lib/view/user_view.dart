@@ -60,36 +60,32 @@ class _UserViewState extends State<UserView> with WidgetsBindingObserver{
         
           child: Row(
             children: [
-           Text(
+          Text(
             '$userid / $password'
-           ),
-           ElevatedButton(
-            onPressed: () async {
-        // final prefs = await SharedPreferences.getInstance();
-        // prefs.remove('userid');
-        // prefs.remove('password');
-        _initSharedpreferences();
-        _disposeSharedpreferences();
-        Get.offAll(HomeTap());
+          ),
+          ElevatedButton(
+            onPressed: ()  {
+              // _initSharedpreferences();
+              _disposeSharedpreferences();
+              Get.offAll(const HomeTap());
             },
             child: Text('로그아웃'))
         
             ],
           ),
         )
-       
+      
       );
     
   }
- 
+
 getJSONData() async {
     var url = Uri.parse(
         'http://localhost:8080/Flutter/login_select_flutter.jsp?userid=${useridController.text}&password=${passwordController.text}'); //uri는 정보를 주고 가져오는 것
     var response = await http.get(url);
     data.clear();
     var dataConvertedJSON = json.decode(utf8.decode(response.bodyBytes));
-    List result = dataConvertedJSON['results'];
-    data.addAll(result);
+    String result = dataConvertedJSON['result'];
 
 }
 
@@ -100,9 +96,6 @@ getJSONData() async {
   if (userid.isNotEmpty || password.isNotEmpty) {
     await getJSONData();
   }
-setState(() {
-  
-});
 }
 _disposeSharedpreferences() async{
   final prefs = await SharedPreferences.getInstance();

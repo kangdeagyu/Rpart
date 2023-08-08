@@ -28,9 +28,6 @@ class JoinPageState extends State<JoinPage> {
     phoneController = TextEditingController();
   }
 
-  
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,11 +51,11 @@ class JoinPageState extends State<JoinPage> {
               ),
               TextField(
                 controller: addressController,
-                decoration: InputDecoration(labelText: '주소를 입력해주세요'),
+                decoration: const InputDecoration(labelText: '주소를 입력해주세요'),
               ),
               TextField(
                 controller: phoneController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: '전화번호를 입력해주세요',
                 ),
               ),
@@ -69,35 +66,24 @@ class JoinPageState extends State<JoinPage> {
                   children: [
                     ElevatedButton(
                       //텍스트 필드 미입력시 팝업
-                      onPressed: () async{
-                        if (useridController.text.trim().isEmpty) {
+                      onPressed: () async {
+                        var url = Uri.parse(
+                            'http://localhost:8080/Flutter/dup_check_select_flutter.jsp?userid=${useridController.text}'); //uri는 정보를 주고 가져오는 것
+                        var response = await http.get(url);
+                        data.clear();
+                        var dataConvertedJSON =
+                            json.decode(utf8.decode(response.bodyBytes));
+                        String result = dataConvertedJSON['result'];
+                        setState(() {});
+                        print(result);
+                        if (result == 'fall') {
                           Get.snackbar(
-                            '알림',
-                            '아이디를 입력해주세요.',
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-                        } else if (passwordController.text.trim().isEmpty) {
-                          Get.snackbar(
-                            '알림',
-                            '패스워드를 입력해주세요.',
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-                        } else if (addressController.text.trim().isEmpty) {
-                          Get.snackbar(
-                            '알림',
-                            '주소를 입력해주세요.',
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-                        } else if (phoneController.text.trim().isEmpty) {
-                          Get.snackbar(
-                            '알림',
-                            '전화번호를 입력해주세요.',
-                            snackPosition: SnackPosition.BOTTOM,
+                            '회원가입에 실패하셨습니다.',
+                            '동일한 아이디가 존재 합니다.',
                           );
                         } else {
-                        getJSONData();
-                        insertAction();
- 
+                          // Get.to(LoginPage());
+                          _showDialog();
                         }
                       },
                       child: const Text('회원가입'),
@@ -128,29 +114,28 @@ class JoinPageState extends State<JoinPage> {
     var url = Uri.parse(
         'http://localhost:8080/Flutter/login_insert_flutter.jsp?userid=${useridController.text}&password=${passwordController.text}&address=${addressController.text}&phone=${phoneController.text}');
     await http.get(url);
-    
   }
- getJSONData() async {
+
+  getJSONData() async {
     var url = Uri.parse(
-        'http://localhost:8080/Flutter/login_select_flutter.jsp?userid=${useridController.text}&password=${passwordController.text}'); //uri는 정보를 주고 가져오는 것
+        'http://localhost:8080/Flutter/dup_check_select_flutter.jsp?userid=${useridController.text}'); //uri는 정보를 주고 가져오는 것
     var response = await http.get(url);
     data.clear();
     var dataConvertedJSON = json.decode(utf8.decode(response.bodyBytes));
-    List result = dataConvertedJSON['results'];
-
-
-    data.addAll(result);
-    setState(( ) {});
-    if(result.isNotEmpty){
-     Get.snackbar(
-      '회원가입에 실패하셨습니다.',
-      '동일한 아이디가 존재 합니다.',
+    String result = dataConvertedJSON['result'];
+    setState(() {});
+    print(result);
+    if (result == 'fall') {
+      Get.snackbar(
+        '회원가입에 실패하셨습니다.',
+        '동일한 아이디가 존재 합니다.',
       );
-    }else {
-      Get.to(LoginPage());
+    } else {
+      // Get.to(LoginPage());
       _showDialog();
     }
   }
+
   _showDialog() {
     showDialog(
       context: context,
@@ -171,4 +156,32 @@ class JoinPageState extends State<JoinPage> {
       },
     );
   }
+  // if (useridController.text.trim().isEmpty) {
+                        //   Get.snackbar(
+                        //     '알림',
+                        //     '아이디를 입력해주세요.',
+                        //     snackPosition: SnackPosition.BOTTOM,
+                        //   );
+                        // } else if (passwordController.text.trim().isEmpty) {
+                        //   Get.snackbar(
+                        //     '알림',
+                        //     '패스워드를 입력해주세요.',
+                        //     snackPosition: SnackPosition.BOTTOM,
+                        //   );
+                        // } else if (addressController.text.trim().isEmpty) {
+                        //   Get.snackbar(
+                        //     '알림',
+                        //     '주소를 입력해주세요.',
+                        //     snackPosition: SnackPosition.BOTTOM,
+                        //   );
+                        // } else if (phoneController.text.trim().isEmpty) {
+                        //   Get.snackbar(
+                        //     '알림',
+                        //     '전화번호를 입력해주세요.',
+                        //     snackPosition: SnackPosition.BOTTOM,
+                        //   );
+                        // } else {
+                        //   getJSONData();
+                        //   insertAction();
+                        // }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/home_tap.dart';
 import 'package:fluttermainproject/view/join_view.dart';
+import 'package:fluttermainproject/view/user_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,28 +73,30 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                   labelText: '비밀번호를 입력해주세요',
                 ),
               ),
-              ElevatedButton(
+              ElevatedButton( // 로그인
                 onPressed: () async {
                   var url = Uri.parse(
                       'http://localhost:8080/Flutter/login_select_flutter.jsp?userid=${useridController.text}&password=${passwordController.text}'); //uri는 정보를 주고 가져오는 것
                   var response = await http.get(url);
                   var dataConvertedJSON =
                       json.decode(utf8.decode(response.bodyBytes));
-                  List result = dataConvertedJSON['results'];
-                  data.addAll(result);
-                  setState(() {});
-                  print(data);
-                  if (data.isEmpty) {
-                    Get.snackbar('로그인', '실패');
+                  String result = dataConvertedJSON['result'];
+
+                  print("result = $result");
+                  if (result == 'fail') {
+                    Get.snackbar('로그인', '실패했찌롱~~~');
                   } else {
+                    // _initSharedpreferences();
                     _saveSharedpreferences();
-                    _initSharedpreferences();
-                    Get.to(HomeTap());
+                    print("shared saved222!");
+                    Get.to(const HomeTap(), arguments: 0);
                   }
+                  // setState(() {});
                 },
-                child: const Text('로그인'),
+                child: const Text('llllllogin'),
+                // 강현이가 함!
               ),
-              ElevatedButton(
+              ElevatedButton( // 회원가입
                 onPressed: () {
                   Get.to(JoinPage());
                 },
@@ -109,17 +112,15 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   Future<void> _initSharedpreferences() async {
     final prefs = await SharedPreferences.getInstance();
     useridController.text = prefs.getString('userid') ?? "";
-    passwordController.text = prefs.getString('password') ?? "";
 
     //앱을 종료하고 다시 실행하면 SharedPreferences에 남아 있으므로 앱을 종료시 정리해야한다.
     print(useridController);
-    print(passwordController);
   }
 
   _saveSharedpreferences() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('userid', useridController.text);
-    prefs.setString('password', passwordController.text);
+    print("shared saved!");
   }
 
   _disposeSharedpreferences() async {
