@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/view/apartment_view.dart';
+import 'package:fluttermainproject/view/google_map_view.dart';
 import 'package:fluttermainproject/view/prediction_lease_view.dart';
 import 'package:fluttermainproject/view/user_view.dart';
 import 'package:fluttermainproject/view/wishlist_view.dart';
@@ -41,7 +42,7 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
           ApartmentView(),
           WishlistView(),
           UserView(),
-          PredictionLeaseView(),
+          GoogleMapView(),
         ],
       ),
       bottomNavigationBar: TabBar(
