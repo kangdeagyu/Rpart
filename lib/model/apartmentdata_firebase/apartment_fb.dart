@@ -1,20 +1,22 @@
 
 class ApartmentFB{
-  var id;
+  int id;
   int year;              // 건축년도
-  double x;              // 경도
+  String x;              // 경도
   String contract;       // 계약시점
   double rate;           // 계약시점기준금리
   String apartmentName;  // 단지명
   String rodeName;       // 도로명
-  int streetAddress;  // 번지
+  String streetAddress;  // 번지
   int deposit;           // 보증금
-  String city;           // 시군구
-  double y;              // 위도
+  String subway;            // 역거리
+  String subwayName;     // 역이름
+  String y;              // 위도
   double extent;         // 임대면적
-  int station;           // 정류장수
-  int subway;            // 지하철역거리
+  String station;           // 정류장이름
+  int stationCount;    //주변정류장개수
   int floor;              // 층
+  String line;          // 호선
 
   ApartmentFB(
     {
@@ -27,7 +29,9 @@ class ApartmentFB{
       required this.rodeName,
       required this.streetAddress,
       required this.deposit,
-      required this.city,
+      required this.line,
+      required this.subwayName,
+      required this.stationCount,
       required this.y,
       required this.extent,
       required this.station,
