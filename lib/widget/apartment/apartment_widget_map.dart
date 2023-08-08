@@ -9,14 +9,20 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
-class ApartmentWidgetMap extends StatelessWidget {
+class ApartmentWidgetMap extends StatefulWidget {
+  @override
+  State<ApartmentWidgetMap> createState() => _ApartmentWidgetMapState();
+}
+
+class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
   // 맵 생성 callback
   KakaoMapController? mapController;
 
-  final List<Marker> markers = []; // 마커 초기화
+  final List<Marker> markers = []; 
+ // 마커 초기화
   MapGPS gps = Get.put(MapGPS());
-  final apartmentController = Get.put(ApartmentControllerObs());
 
+  final apartmentController = Get.put(ApartmentControllerObs());
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +98,9 @@ class ApartmentWidgetMap extends StatelessWidget {
                 },
                 onMapCreated: ((controller) {
                   mapController = controller;
+                  setState(() {
+                    
+                  });
                   // 지도에 찍히는 마커 데이터
                 }),
                 markers: markers,
