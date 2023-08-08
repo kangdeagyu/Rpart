@@ -13,13 +13,13 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(37.50080871582031, 127.0368881225586),
     zoom: 14.4746,
   );
 
-  static final CameraPosition _kLake = CameraPosition(
+  static final CameraPosition _myLocation = CameraPosition(
       bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
+      target: LatLng(37.50080871582031, 127.0368881225586),
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
 
@@ -27,7 +27,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: GoogleMap(
-        mapType: MapType.hybrid,
+        mapType: MapType.terrain,
         initialCameraPosition: _kGooglePlex,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
@@ -35,7 +35,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToTheLake,
-        label: Text('To the lake!'),
+        label: Text('My Location'),
         icon: Icon(Icons.directions_boat),
       ),
     );
@@ -43,6 +43,6 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
 
   Future<void> _goToTheLake() async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+    controller.animateCamera(CameraUpdate.newCameraPosition(_myLocation));
   }
 }

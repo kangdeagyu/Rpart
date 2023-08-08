@@ -45,6 +45,7 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
     _tabController.index = initialTabIndex;
     return Scaffold(
       body: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: login
             ? const [
