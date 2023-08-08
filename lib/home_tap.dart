@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeTap extends StatefulWidget {
-  const HomeTap({Key? key}) : super(key: key);
+  const HomeTap({super.key});
 
   @override
   State<HomeTap> createState() => _HomeTapState();
@@ -29,13 +29,14 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
     userid ='';
     password ='';
     login = true;
-     _initSharedpreferences();
+    _initSharedpreferences();
     _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _disposeSharedpreferences();
     super.dispose();
   }
 
@@ -43,6 +44,7 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     int initialTabIndex = Get.arguments ?? 0;
     _tabController.index = initialTabIndex;
+    print(initialTabIndex);
     return Scaffold(
       body: TabBarView(
         physics: NeverScrollableScrollPhysics(),
@@ -104,12 +106,17 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
       ),
     );
   }
-   Future<void> _initSharedpreferences() async {
-      final prefs = await SharedPreferences.getInstance();
-      userid = prefs.getString('userid') ?? "";
-      password = prefs.getString('password') ?? "";
-      login = userid.trim().isEmpty;
-      setState(() {});
-    }
+  
+  Future<void> _initSharedpreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    userid = prefs.getString('userid') ?? "";
+    password = prefs.getString('password') ?? "";
+    login = userid.trim().isEmpty;
+    setState(() {});
+  }
+  Future<void> _disposeSharedpreferences() async{
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear(); 
+  }
 
 }
