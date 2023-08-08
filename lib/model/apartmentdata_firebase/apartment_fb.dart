@@ -1,5 +1,6 @@
 
 class ApartmentFB{
+  var id;
   int year;              // 건축년도
   double x;              // 경도
   String contract;       // 계약시점
@@ -17,6 +18,7 @@ class ApartmentFB{
 
   ApartmentFB(
     {
+      required this.id,
       required this.year,
       required this.x,
       required this.contract,

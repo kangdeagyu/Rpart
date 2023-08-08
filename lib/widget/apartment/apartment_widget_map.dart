@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class ApartmentWidgetMap extends StatefulWidget {
+  const ApartmentWidgetMap({super.key});
+
   @override
   State<ApartmentWidgetMap> createState() => _ApartmentWidgetMapState();
 }
@@ -60,7 +62,9 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     extent: doc['임대면적'],
                     station: doc['정류장수'],
                     subway: doc['지하철역거리'],
-                    floor: doc['층']);
+                    floor: doc['층'],
+                    id: doc.id
+                  );
 
                 markers.add(
                   Marker(
@@ -68,9 +72,8 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     width: 20,
                     height: 50,
                     infoWindowContent: apartmentData.apartmentName,
-                    infoWindowFirstShow: true,
                     infoWindowRemovable: false,
-                    markerId: UniqueKey().toString(),
+                    markerId: apartmentData.id,
                   ),
                 );
               }
@@ -78,6 +81,31 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                 mapTypeControl: true,
                 mapTypeControlPosition: ControlPosition.bottomRight,
                 onMapTap: (latLng) => FocusScope.of(context).unfocus(),
+                customOverlays: markers.map((marker) {
+                  return CustomOverlay(
+                    customOverlayId: marker.markerId, 
+                    latLng: LatLng(marker.latLng.latitude + 0.0018, marker.latLng.longitude), 
+                    content: '<div class="message-box" style="background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; position: relative;">' +
+                      '<div class="box-title">${marker.infoWindowContent}</div>' +
+                      '<div class="box-content">${marker.infoWindowContent}</div>' +
+                      '<div class="arrow-down"></div>' +
+                    '</div>' +
+                    '<style>' +
+                        '.arrow-down { ' +
+                        'position: absolute;' +
+                        'width: 0;' +
+                        'height: 0;' +
+                        'left: 50%;' +
+                        'bottom: -10px;' +
+                        'transform: translateX(-50%);' +
+                        'border-left: 10px solid transparent;' +
+                        'border-right: 10px solid transparent;' +
+                        'border-top: 10px solid #ccc;' + /* 화살표 색상 조정 가능 */
+                      '}' +
+                    '</style>',
+                      );
+                  }).toList(),
+                
                 // 마커를 클릭했을 때 호출
                 onMarkerTap: (markerId, latLng, zoomLevel) {
                   // 선택된 마커의 infoWindowContent 값을 가져옴
@@ -87,7 +115,8 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
 
                   // Getx로 데이터를 보냅니다.
                   apartmentController.setApartmentName(apartmentName);
-
+                  
+              
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
