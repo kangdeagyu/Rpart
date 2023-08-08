@@ -57,18 +57,20 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     rodeName: doc['도로명'],
                     streetAddress: doc['번지'],
                     deposit: doc['보증금'],
-                    city: doc['시군구'],
                     y: doc['위도'],
                     extent: doc['임대면적'],
-                    station: doc['정류장수'],
-                    subway: doc['지하철역거리'],
+                    station: doc['정류장이름'],
+                    stationCount: doc['주변정류장개수'],
+                    subway: doc['역거리'],
+                    subwayName: doc['역이름'],
                     floor: doc['층'],
+                    line: doc['호선'],
                     id: doc.id
                   );
 
                 markers.add(
                   Marker(
-                    latLng: LatLng(apartmentData.y, apartmentData.x),
+                    latLng: LatLng(double.parse(apartmentData.y), double.parse(apartmentData.x)),
                     width: 20,
                     height: 50,
                     infoWindowContent: apartmentData.apartmentName,

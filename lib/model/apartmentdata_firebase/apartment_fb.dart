@@ -1,10 +1,10 @@
 
 class ApartmentFB{
-  int id;
+  var id;
   int year;              // 건축년도
   String x;              // 경도
   String contract;       // 계약시점
-  double rate;           // 계약시점기준금리
+  var rate;           // 계약시점기준금리
   String apartmentName;  // 단지명
   String rodeName;       // 도로명
   String streetAddress;  // 번지
@@ -12,7 +12,7 @@ class ApartmentFB{
   String subway;            // 역거리
   String subwayName;     // 역이름
   String y;              // 위도
-  double extent;         // 임대면적
+  var extent;         // 임대면적
   String station;           // 정류장이름
   int stationCount;    //주변정류장개수
   int floor;              // 층
