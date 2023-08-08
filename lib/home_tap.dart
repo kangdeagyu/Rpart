@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/view/apartment_view.dart';
+import 'package:fluttermainproject/view/prediction_lease_view.dart';
 import 'package:fluttermainproject/view/user_view.dart';
 import 'package:fluttermainproject/view/wishlist_view.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,7 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
   }
 
   @override
@@ -39,7 +40,8 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
         children: const [
           ApartmentView(),
           WishlistView(),
-          UserView()
+          UserView(),
+          PredictionLeaseView(),
         ],
       ),
       bottomNavigationBar: TabBar(
@@ -63,6 +65,12 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
               Icons.add_circle,
             ),
             text: '더보기',
+          ),
+          Tab(
+            icon: Icon(
+              Icons.addchart,
+            ),
+            text: '분석',
           ),
         ],
       ),
