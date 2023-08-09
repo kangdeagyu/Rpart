@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/model/apartmentdata_firebase/apartment_fb.dart';
@@ -21,7 +22,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
   KakaoMapController? mapController;
 
   final List<Marker> markers = []; 
- // 마커 초기화
+  // 마커 초기화
   MapGPS gps = Get.put(MapGPS());
 
   final apartmentController = Get.put(ApartmentControllerObs());
@@ -45,62 +46,44 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                   child: CircularProgressIndicator(),
                 );
               }
+              
               markers.clear();
+              
+              for (var doc in snapshot.data!.docs) {
+                var apartmentData = ApartmentFB(
+                    year: doc['건축년도'],
+                    x: doc['경도'],
+                    contract: doc['계약시점'],
+                    rate: doc['계약시점기준금리'],
+                    apartmentName: doc['단지명'],
+                    rodeName: doc['도로명'],
+                    streetAddress: doc['번지'],
+                    deposit: doc['보증금'],
+                    y: doc['위도'],
+                    extent: doc['임대면적'],
+                    station: doc['정류장이름'],
+                    stationCount: doc['주변정류장개수'],
+                    subway: doc['역거리'],
+                    subwayName: doc['역이름'],
+                    floor: doc['층'],
+                    line: doc['호선'],
+                    id: doc.id
+                  );
 
-              // for (var doc in snapshot.data!.docs) {
-              //   var apartmentData = ApartmentFB(
-              //       year: doc['건축년도'],
-              //       x: doc['경도'],
-              //       contract: doc['계약시점'],
-              //       rate: doc['계약시점기준금리'],
-              //       apartmentName: doc['단지명'],
-              //       rodeName: doc['도로명'],
-              //       streetAddress: doc['번지'],
-              //       deposit: doc['보증금'],
-              //       y: doc['위도'],
-              //       extent: doc['임대면적'],
-              //       station: doc['정류장이름'],
-              //       stationCount: doc['주변정류장개수'],
-              //       subway: doc['역거리'],
-              //       subwayName: doc['역이름'],
-              //       floor: doc['층'],
-              //       line: doc['호선'],
-              //       id: doc.id
-              //     );
-
                 markers.add(
                   Marker(
-                    latLng: LatLng(37.497961, 127.027635),
+                    latLng: LatLng(double.parse(apartmentData.y), double.parse(apartmentData.x)),
                     width: 20,
                     height: 50,
-                    infoWindowContent: 'test1',
+                    infoWindowContent: apartmentData.apartmentName,
                     infoWindowRemovable: false,
-                    markerId: '1',
+                    infoWindowFirstShow: false,
+                    markerId: apartmentData.id,
                   ),
                 );
-                markers.add(
-                  Marker(
-                    latLng: LatLng(37.497963, 127.027638),
-                    width: 20,
-                    height: 50,
-                    infoWindowContent: 'test2',
-                    infoWindowRemovable: false,
-                    markerId: '2',
-                  ),
-                );
-                markers.add(
-                  Marker(
-                    latLng: LatLng(37.497966, 127.027641),
-                    width: 20,
-                    height: 50,
-                    infoWindowContent: 'test3',
-                    infoWindowRemovable: false,
-                    markerId: '3',
-                  ),
-                );
-              //}
+              }
+               
               return KakaoMap(
-                
                 mapTypeControl: true,
                 mapTypeControlPosition: ControlPosition.bottomRight,
                 zoomControl: true,
@@ -139,9 +122,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                       .infoWindowContent;
 
                   // Getx로 데이터를 보냅니다.
-                  apartmentController.setApartmentName(apartmentName);
-                  
-              
+                  apartmentController.setApartmentName(apartmentName);      
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
@@ -152,14 +133,14 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                 },
                 onMapCreated: ((controller) {
                   mapController = controller;
+                  // 지도에 찍히는 마커 데이터
                   setState(() {
                     
                   });
-                  // 지도에 찍히는 마커 데이터
                 }),
                 markers: markers,
                 // 지도의 중심좌표
-                center: LatLng(37.497961, 127.027635),
+                center: LatLng(37.5007, 127.0368),
               );
             }),
           ),
@@ -194,3 +175,5 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
       ));
   }
 }
+
+
