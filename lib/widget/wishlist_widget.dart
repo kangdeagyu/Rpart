@@ -16,9 +16,19 @@ class WishlistWidget extends StatelessWidget {
           return ListView.builder(
             itemCount: snapshot.data?.length,
             itemBuilder: (context, index) {
-              return Card(
-                child: Text(
-                  snapshot.data![index].aptname
+              return Padding(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.02),
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.04),
+                    child: Text(
+                      snapshot.data![index].aptname,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
               );
             },

@@ -73,9 +73,29 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     latLng: LatLng(37.497961, 127.027635),
                     width: 20,
                     height: 50,
-                    infoWindowContent: 'test',
+                    infoWindowContent: 'test1',
                     infoWindowRemovable: false,
                     markerId: '1',
+                  ),
+                );
+                markers.add(
+                  Marker(
+                    latLng: LatLng(37.497963, 127.027638),
+                    width: 20,
+                    height: 50,
+                    infoWindowContent: 'test2',
+                    infoWindowRemovable: false,
+                    markerId: '2',
+                  ),
+                );
+                markers.add(
+                  Marker(
+                    latLng: LatLng(37.497966, 127.027641),
+                    width: 20,
+                    height: 50,
+                    infoWindowContent: 'test3',
+                    infoWindowRemovable: false,
+                    markerId: '3',
                   ),
                 );
               //}
