@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class ApartmentWidgetMap extends StatefulWidget {
+  
   const ApartmentWidgetMap({super.key});
 
   @override
@@ -177,7 +178,8 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
             ),
           ),
           // 검색창, 최근검색어
-          ApartmentSearch(),
+          ApartmentSearch(mapController: mapController),
+          
         ],
       ));
   }

@@ -9,7 +9,9 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 class ApartmentSearch extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
   DatabaseHandler handler = Get.put(DatabaseHandler());
-  KakaoMapController? mapController;
+  final KakaoMapController? mapController;
+
+  ApartmentSearch({super.key, required this.mapController});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class ApartmentSearch extends StatelessWidget {
                   vertical: 5.0, horizontal: 12.0), // 텍스트필드 내부/여백을 변경
               // 검색버튼 눌렀을경우
               suffixIcon: IconButton(
-                onPressed: () {
+                onPressed: () async {
                   if (searchController.text.trim().isEmpty) {
                     Get.snackbar(
                       '검색오류',
@@ -40,29 +42,18 @@ class ApartmentSearch extends StatelessWidget {
                     // 최근 검색어 저장
                     handler.insertSearch(searchController.text.trim());
                     // 사용자 검색을 통해 위치 변경 해야됨 ******************************
-                    StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                        .collection('apartment')
-                        .where('단지명', isGreaterThanOrEqualTo: searchController.text.trim())
-                        .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                            child: Text('dd'),
-                          );
-                        }
-                        // 데이터가 있을 때, 해당 위치로 지도를 이동시키기
-                        if (snapshot.hasData) {
-                          print('ddd');
-                          final document = snapshot.data!.docs.first;
-                          double latitude = document['위도'];
-                          double longitude = document['경도'];
-                          print(latitude);
-                          mapController?.setCenter(LatLng(latitude, longitude));
-                        }
-                        return Text('dd');
-                      },
-                    );
+                    // 사용자 검색을 통해 위치 변경
+                    QuerySnapshot snapshot = await FirebaseFirestore.instance
+                      .collection('apartment')
+                      .where('단지명', isGreaterThanOrEqualTo: searchController.text.trim())
+                      .get();
+
+                    if (snapshot.docs.isNotEmpty) {
+                      final document = snapshot.docs[0];
+                      var latitude = document['위도'];
+                      var longitude = document['경도'];
+                      mapController?.setCenter(LatLng(double.parse(latitude), double.parse(longitude)));
+                    }
                   }
                 },
                 icon: const Icon(Icons.search),
