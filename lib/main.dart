@@ -1,5 +1,7 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:fluttermainproject/firebase_options.dart';
 import 'package:fluttermainproject/viewmodel/prediction_lease_provider.dart';
 import 'package:get/get.dart';
@@ -21,9 +23,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );  
+  );
+
+
   runApp(const MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -38,7 +44,10 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const HomeTap(),
+        home: AnimatedSplashScreen(
+          splash: Image.asset("images/loding.gif"), 
+          nextScreen: const HomeTap(),
+        )
       ),
     );
   }

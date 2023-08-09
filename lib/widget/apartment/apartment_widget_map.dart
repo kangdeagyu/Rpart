@@ -47,46 +47,49 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
               }
               markers.clear();
 
-              for (var doc in snapshot.data!.docs) {
-                var apartmentData = ApartmentFB(
-                    year: doc['건축년도'],
-                    x: doc['경도'],
-                    contract: doc['계약시점'],
-                    rate: doc['계약시점기준금리'],
-                    apartmentName: doc['단지명'],
-                    rodeName: doc['도로명'],
-                    streetAddress: doc['번지'],
-                    deposit: doc['보증금'],
-                    y: doc['위도'],
-                    extent: doc['임대면적'],
-                    station: doc['정류장이름'],
-                    stationCount: doc['주변정류장개수'],
-                    subway: doc['역거리'],
-                    subwayName: doc['역이름'],
-                    floor: doc['층'],
-                    line: doc['호선'],
-                    id: doc.id
-                  );
+              // for (var doc in snapshot.data!.docs) {
+              //   var apartmentData = ApartmentFB(
+              //       year: doc['건축년도'],
+              //       x: doc['경도'],
+              //       contract: doc['계약시점'],
+              //       rate: doc['계약시점기준금리'],
+              //       apartmentName: doc['단지명'],
+              //       rodeName: doc['도로명'],
+              //       streetAddress: doc['번지'],
+              //       deposit: doc['보증금'],
+              //       y: doc['위도'],
+              //       extent: doc['임대면적'],
+              //       station: doc['정류장이름'],
+              //       stationCount: doc['주변정류장개수'],
+              //       subway: doc['역거리'],
+              //       subwayName: doc['역이름'],
+              //       floor: doc['층'],
+              //       line: doc['호선'],
+              //       id: doc.id
+              //     );
 
                 markers.add(
                   Marker(
-                    latLng: LatLng(double.parse(apartmentData.y), double.parse(apartmentData.x)),
+                    latLng: LatLng(37.497961, 127.027635),
                     width: 20,
                     height: 50,
-                    infoWindowContent: apartmentData.apartmentName,
+                    infoWindowContent: 'test',
                     infoWindowRemovable: false,
-                    markerId: apartmentData.id,
+                    markerId: '1',
                   ),
                 );
-              }
+              //}
               return KakaoMap(
+                
                 mapTypeControl: true,
                 mapTypeControlPosition: ControlPosition.bottomRight,
+                zoomControl: true,
+                zoomControlPosition: ControlPosition.bottomLeft,
                 onMapTap: (latLng) => FocusScope.of(context).unfocus(),
                 customOverlays: markers.map((marker) {
                   return CustomOverlay(
                     customOverlayId: marker.markerId, 
-                    latLng: LatLng(marker.latLng.latitude + 0.0018, marker.latLng.longitude), 
+                    latLng: LatLng(marker.latLng.latitude, marker.latLng.longitude), 
                     content: '<div class="message-box" style="background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; position: relative;">' +
                       '<div class="box-title">${marker.infoWindowContent}</div>' +
                       '<div class="box-content">${marker.infoWindowContent}</div>' +
@@ -142,9 +145,10 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
           ),
         // GPS
           Positioned(
-            bottom: MediaQuery.of(context).size.height / 60,
+            bottom: MediaQuery.of(context).size.height / 4,
             child: IconButton(
-              style: IconButton.styleFrom(backgroundColor: Colors.white),
+              color: Colors.white,
+              style: IconButton.styleFrom(backgroundColor: Colors.indigoAccent),
               onPressed: () async {
                 // 사용자 위치를 얻어옴
                 Position? position = await gps.getCurrentLocation();
@@ -153,6 +157,9 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                   double latitude = position.latitude;
                   double longitude = position.longitude;
                   // 해당 위치로 맵 이동
+                  // List<Marker> nawhere = [];
+                  // nawhere.add(Marker(markerId: 'na', latLng: LatLng(latitude, longitude)));
+                  // mapController?.addMarker(markers: nawhere);
                   mapController?.setCenter(LatLng(latitude, longitude));
                 } else {
                   // 위치 권한이 거부된 경우
