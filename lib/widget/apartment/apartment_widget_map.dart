@@ -48,7 +48,8 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
               }
               
               markers.clear();
-              
+              Set<String> uniqueRoadNames = Set();
+
               for (var doc in snapshot.data!.docs) {
                 var apartmentData = ApartmentFB(
                     year: doc['건축년도'],
@@ -70,6 +71,10 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     id: doc.id
                   );
 
+                // 중복되지 않은 도로명만 처리
+              if (!uniqueRoadNames.contains(apartmentData.rodeName)) {
+                uniqueRoadNames.add(apartmentData.rodeName);
+                
                 markers.add(
                   Marker(
                     latLng: LatLng(double.parse(apartmentData.y), double.parse(apartmentData.x)),
@@ -82,7 +87,8 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                   ),
                 );
               }
-               
+             }
+
               return KakaoMap(
                 mapTypeControl: true,
                 mapTypeControlPosition: ControlPosition.bottomRight,
@@ -133,6 +139,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                 },
                 onMapCreated: ((controller) {
                   mapController = controller;
+                  
                   // 지도에 찍히는 마커 데이터
                   setState(() {
                     
