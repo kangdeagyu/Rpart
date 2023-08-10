@@ -75,7 +75,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                 // 중복되지 않은 도로명만 처리
               if (!uniqueRoadNames.contains(apartmentData.rodeName)) {
                 uniqueRoadNames.add(apartmentData.rodeName);
-                
+
                 markers.add(
                   Marker(
                     latLng: LatLng(double.parse(apartmentData.y), double.parse(apartmentData.x)),
