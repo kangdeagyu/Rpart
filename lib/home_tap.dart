@@ -18,6 +18,7 @@ class HomeTap extends StatefulWidget {
 class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
   // Property
   late List data; 
+  late bool kakaologin;
   late bool login;
   late String userid;
   late String password;
@@ -29,12 +30,15 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
     userid ='';
     password ='';
     login = true;
+    kakaologin= true;
     _initSharedpreferences();
     _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
   }
 
   @override
   Widget build(BuildContext context) {
+    // final kakaologin= Get.arguments;
+    //  final login = kakaologin['kakaoId'];
     int initialTabIndex = Get.arguments ?? 0;
     _tabController.index = initialTabIndex;
     print(initialTabIndex);

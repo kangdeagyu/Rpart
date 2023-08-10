@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/home_tap.dart';
+import 'package:fluttermainproject/view/apartment_view.dart';
 import 'package:fluttermainproject/view/login_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserView extends StatefulWidget {
@@ -15,6 +17,10 @@ const UserView({super.key});
 }
 
 class _UserViewState extends State<UserView> with WidgetsBindingObserver{
+  // late AuthController authController;
+//   var tokenResponse = AccessTokenResponse.fromJson(response);
+// var token = OAuthToken.fromResponse(tokenResponse);
+
      late List data;
     late String userid = '';
   late String password = '';
@@ -45,7 +51,7 @@ class _UserViewState extends State<UserView> with WidgetsBindingObserver{
             onPressed: ()  {
               _initSharedpreferences();
               _disposeSharedpreferences();
-              Get.offAll(const LoginPage());
+              Get.toNamed('/next');
             },
             child: Text('로그아웃'))
         
@@ -57,15 +63,7 @@ class _UserViewState extends State<UserView> with WidgetsBindingObserver{
     
   }
 
-// getJSONData() async {
-//     var url = Uri.parse(
-//         'http://localhost:8080/Flutter/login_select_flutter.jsp?userid=${useridController.text}&password=${passwordController.text}'); //uri는 정보를 주고 가져오는 것
-//     var response = await http.get(url);
-//     data.clear();
-//     var dataConvertedJSON = json.decode(utf8.decode(response.bodyBytes));
-//     String result = dataConvertedJSON['result'];
 
-// }
 
 _initSharedpreferences() async{
   final prefs = await SharedPreferences.getInstance();
