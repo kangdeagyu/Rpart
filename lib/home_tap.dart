@@ -34,13 +34,6 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
   }
 
   @override
-  void dispose() {
-    _tabController.dispose();
-    _disposeSharedpreferences();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     int initialTabIndex = Get.arguments ?? 0;
     _tabController.index = initialTabIndex;
@@ -112,7 +105,9 @@ class _HomeTapState extends State<HomeTap> with SingleTickerProviderStateMixin {
     userid = prefs.getString('userid') ?? "";
     password = prefs.getString('password') ?? "";
     login = userid.trim().isEmpty;
-    setState(() {});
+    setState(() {
+      
+    });
   }
   Future<void> _disposeSharedpreferences() async{
     final prefs = await SharedPreferences.getInstance();
