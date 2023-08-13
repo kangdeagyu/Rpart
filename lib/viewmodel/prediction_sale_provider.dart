@@ -14,27 +14,27 @@ class PredictionSale extends ChangeNotifier {
     var predictUrl;
     if(saleArea < 33.06) {
       rdsUrl = Uri.parse(
-        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_under10'
+        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_under10&isSale=1'
       );
     } else if(saleArea < 66.12) {
       rdsUrl = Uri.parse(
-        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_10'
+        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_10&isSale=1'
       );
     } else if(saleArea < 99.17) {
       rdsUrl = Uri.parse(
-        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_20'
+        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_20&isSale=1'
       );
     } else if(saleArea < 132.23) {
       rdsUrl = Uri.parse(
-        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_30'
+        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_30&isSale=1'
       );
     } else if(saleArea < 165.29) {
       rdsUrl = Uri.parse(
-        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_10_40_except30'
+        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_10_40_except30&isSale=1'
       );
     } else {
       rdsUrl = Uri.parse(
-        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_over50'
+        'http://localhost:8080/rdsRServe?busStations=$busStations&distance=$distance&saleArea=$saleArea&floor=$floor&yoc=$yoc&contractDate=$contractDate&baseRate=$baseRate&size=sale_over50&isSale=1'
       );
     }
     var rdsResponse = await http.get(rdsUrl);
