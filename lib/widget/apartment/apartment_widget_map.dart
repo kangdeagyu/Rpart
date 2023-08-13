@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/model/apartmentdata_firebase/apartment_fb.dart';
 import 'package:fluttermainproject/model/obs/apartmentcontroller.dart';
+import 'package:fluttermainproject/viewmodel/apartment_lease_vm.dart';
 import 'package:fluttermainproject/viewmodel/mapgps_vm.dart';
 import 'package:fluttermainproject/widget/apartment/apartment_chart_appbar_widget.dart';
 import 'package:fluttermainproject/widget/apartment/apartment_search.dart';
@@ -21,9 +22,15 @@ class ApartmentWidgetMap extends StatefulWidget {
 class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
   // 맵 생성 callback
   KakaoMapController? mapController;
-
-  final List<Marker> markers = []; 
   // 마커 초기화
+  final List<Marker> markers = []; 
+  // 예측값
+  List lease = [];
+  // markersid
+  int num = 0;
+
+  ApartmentLease _apartmentLease = ApartmentLease();
+  
   MapGPS gps = Get.put(MapGPS());
 
   final apartmentController = Get.put(ApartmentControllerObs());
@@ -40,6 +47,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection('apartment')
+                .limit(100)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -49,7 +57,28 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
               }
               
               markers.clear();
+              //lease.clear();
+              num = 0;
               Set<String> uniqueRoadNames = Set();
+
+              // 예측값 불러오기
+              Future<List> fetchLeasePrediction(ApartmentFB apartmentData) async {
+                double doubleRate = apartmentData.rate.toDouble();
+                double doubleExtent = apartmentData.extent.toDouble();
+                String prediction = await _apartmentLease.predictLease(
+                  double.parse(apartmentData.stationCount.toString()),
+                  -double.parse(apartmentData.subway),
+                  doubleExtent,
+                  double.parse(apartmentData.floor.toString()),
+                  double.parse(apartmentData.year.toString()),
+                  double.parse(apartmentData.contract),
+                  doubleRate,
+                  double.parse(apartmentData.x),
+                  double.parse(apartmentData.y),
+                );
+                lease.add(prediction);
+                return lease;
+              }
 
               for (var doc in snapshot.data!.docs) {
                 var apartmentData = ApartmentFB(
@@ -71,10 +100,12 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     line: doc['호선'],
                     id: doc.id
                   );
-
-                // 중복되지 않은 도로명만 처리
+              
+              // 중복되지 않은 도로명만 처리
               if (!uniqueRoadNames.contains(apartmentData.rodeName)) {
                 uniqueRoadNames.add(apartmentData.rodeName);
+                // 분석 데이터 가져오기
+                fetchLeasePrediction(apartmentData);
 
                 markers.add(
                   Marker(
@@ -84,10 +115,12 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     infoWindowContent: apartmentData.apartmentName,
                     infoWindowRemovable: false,
                     infoWindowFirstShow: false,
-                    markerId: apartmentData.id,
+                    markerId: num.toString(),
                   ),
                 );
+                num++;
               }
+              
              }
 
               return KakaoMap(
@@ -102,7 +135,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     latLng: LatLng(marker.latLng.latitude, marker.latLng.longitude), 
                     content: '<div class="message-box" style="background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; position: relative;">' +
                       '<div class="box-title">${marker.infoWindowContent}</div>' +
-                      '<div class="box-content">${marker.infoWindowContent}</div>' +
+                      '<div class="box-content">${lease[int.parse(marker.markerId)]}</div>' +
                       '<div class="arrow-down"></div>' +
                     '</div>' +
                     '<style>' +
@@ -129,7 +162,8 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                       .infoWindowContent;
 
                   // Getx로 데이터를 보냅니다.
-                  apartmentController.setApartmentName(apartmentName);      
+                  apartmentController.setApartmentName(apartmentName); 
+
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
