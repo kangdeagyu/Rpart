@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttermainproject/viewmodel/chart_getx.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:firebase_chart_test_app/model/price_data.dart';
-import 'package:firebase_chart_test_app/viewmodel/chart_getx.dart';
+import 'package:fluttermainproject/model/price_data.dart';
 
 class ChartWidget extends StatelessWidget {
   final String address;
