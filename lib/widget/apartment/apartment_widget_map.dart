@@ -135,7 +135,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     latLng: LatLng(marker.latLng.latitude, marker.latLng.longitude), 
                     content: '<div class="message-box" style="background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; position: relative;">' +
                       '<div class="box-title">${marker.infoWindowContent}</div>' +
-                      '<div class="box-content">${lease[int.parse(marker.markerId)]}</div>' +
+                      '<div class="box-content">${lease.isNotEmpty ? lease[int.parse(marker.markerId)] : null}</div>' +
                       '<div class="arrow-down"></div>' +
                     '</div>' +
                     '<style>' +
