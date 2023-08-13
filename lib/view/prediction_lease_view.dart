@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttermainproject/model/apartmentdata_firebase/apartment_fb.dart';
 import 'package:fluttermainproject/view/google_map_location.dart';
 import 'package:fluttermainproject/viewmodel/prediction_lease_provider.dart';
+import 'package:fluttermainproject/viewmodel/prediction_sale_provider.dart';
 import 'package:fluttermainproject/widget/apartment/prediction_lease_widget.dart';
+import 'package:fluttermainproject/widget/apartment/prediction_sale_widget.dart';
 import 'package:fluttermainproject/widget/table_calender_widget.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +26,7 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
   TextEditingController contractDateController = TextEditingController();
   TextEditingController baseRateController = TextEditingController();
   PredictionLease _lease = PredictionLease();
+  PredictionSale _sale = PredictionSale();
   double distanceValue = 0.0;
   double longitude = 0.0;
   double latitude = 0.0;
@@ -31,6 +34,7 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
   String subwayName = "";
   var index = Get.arguments ?? "";
   String line = '';
+  bool isSale = false;
 
   @override
   void initState() {
@@ -44,10 +48,12 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
     baseRateController.text = "";
     line = "";
     subwayName = "";
+    isSale = false;
     if (index != null && index != "") {
       fetchApartmentData();
     }
     _lease.init();
+    _sale.init();
   }
 
   void fetchApartmentData() {
@@ -100,9 +106,24 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
   Widget build(BuildContext context) {
     PredictionLease _predictionLease =
         Provider.of<PredictionLease>(context);
-
+    PredictionSale _predictionSale = Provider.of<PredictionSale>(context);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          Text(
+            isSale ? "매매가" : "전세가"
+          ),
+          Switch(
+            value: isSale,
+            onChanged: (value) {
+              isSale = value;
+              setState(() {
+                //
+              });
+            },
+          )
+        ],
+      ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection('apartment')
@@ -255,7 +276,18 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: TextField(
+                          child: isSale ? 
+                          TextField(
+                            controller: leaseableAreaController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "전용면적(㎡)을 입력해주세요.",
+                              suffix: Text("㎡"),
+                            ),
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
+                          )
+                          : TextField(
                             controller: leaseableAreaController,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
@@ -417,7 +449,19 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                 )
                               );
                             } else {
-                              _predictionLease.predictLease(
+                              isSale ?
+                              _predictionSale.predictSale(
+                                double.parse(busStationsController.text),
+                                -distanceValue,
+                                double.parse(leaseableAreaController.text),
+                                double.parse(floorController.text),
+                                double.parse(yocController.text),
+                                double.parse(contractDateController.text),
+                                double.parse(baseRateController.text),
+                                latitude,
+                                longitude,
+                              )
+                              : _predictionLease.predictLease(
                                 double.parse(busStationsController.text),
                                 -distanceValue,
                                 double.parse(leaseableAreaController.text),
@@ -434,7 +478,7 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                             "분석",
                           ),
                         ),
-                        PredictionLeaseWidget(),
+                        isSale ? PredictionSaleWidget() : PredictionLeaseWidget(),
                       ],
                     ),
                   ),
