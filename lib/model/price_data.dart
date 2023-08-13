@@ -1,7 +1,7 @@
 class PriceData {
 
   String yearMonth;
-  double price;
+  int price;
 
   PriceData(
     this.yearMonth, 

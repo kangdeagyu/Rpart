@@ -8,7 +8,11 @@ class ChartWidget extends StatelessWidget {
   final String address;
   final String floor;
 
-  const ChartWidget({required this.address, required this.floor, Key? key}) : super(key: key);
+  const ChartWidget(
+    {required this.address, 
+    required this.floor, 
+    Key? key
+    }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,29 +20,26 @@ class ChartWidget extends StatelessWidget {
 
     return GetBuilder<ChartGetX>(
       builder: (controller) {
+        // print(address);
+        // print(floor);
+        controller.getChartJSON(address, floor);
         return Obx(() {
-          if (controller.result.value == null) {
-            // 데이터가 없는 경우 (빈 화면 또는 다른 처리)
-            return CircularProgressIndicator();
+          if (controller.priceDataList.value == null) {
+            // 데이터가 없는 경우
+            return const CircularProgressIndicator();
           } else {
-            // 비동기 작업이 완료되었을 때
-            print("result : ${controller.result.value}");
+            // 비동기 작업 완료
+            // print("result : ${controller.priceDataList.value}");
             return SfCartesianChart(
               primaryXAxis: CategoryAxis(),
               // 타이틀
-              title: ChartTitle(text: '실 거래가 현황'),
+              title: ChartTitle(text: '최근 2년 전세금 현황'),
               // 범례
               legend: const Legend(isVisible: false),
               // 데이터 입력
               series: <LineSeries<PriceData, String>>[
                 LineSeries<PriceData, String>(
-                    dataSource:  <PriceData>[
-                      PriceData('Jan', 35),
-                      PriceData('Feb', 28),
-                      PriceData('Mar', 34),
-                      PriceData('Apr', 32),
-                      PriceData('May', 40)
-                    ],
+                    dataSource: controller.priceDataList,
                   // x, y 축
                   xValueMapper: (PriceData data, _) => data.yearMonth,
                   yValueMapper: (PriceData data, _) => data.price,
