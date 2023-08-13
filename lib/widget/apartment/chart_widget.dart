@@ -39,6 +39,7 @@ class ChartWidget extends StatelessWidget {
               // 데이터 입력
               series: <LineSeries<PriceData, String>>[
                 LineSeries<PriceData, String>(
+                    //dataSource: controller.priceDataList,
                     dataSource: controller.priceDataList,
                   // x, y 축
                   xValueMapper: (PriceData data, _) => data.yearMonth,
