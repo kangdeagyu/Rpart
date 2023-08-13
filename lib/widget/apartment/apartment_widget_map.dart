@@ -47,7 +47,6 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection('apartment')
-                .limit(100)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -106,7 +105,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                 uniqueRoadNames.add(apartmentData.rodeName);
                 // 분석 데이터 가져오기
                 fetchLeasePrediction(apartmentData);
-
+                print(1);
                 markers.add(
                   Marker(
                     latLng: LatLng(double.parse(apartmentData.y), double.parse(apartmentData.x)),
@@ -135,7 +134,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     latLng: LatLng(marker.latLng.latitude, marker.latLng.longitude), 
                     content: '<div class="message-box" style="background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; position: relative;">' +
                       '<div class="box-title">${marker.infoWindowContent}</div>' +
-                      '<div class="box-content">${lease.isNotEmpty ? lease[int.parse(marker.markerId)] : null}</div>' +
+                      '<div class="box-content">${lease.isNotEmpty ? lease[int.parse(marker.markerId)] != "R Error" ? lease[int.parse(marker.markerId)] : '' : null}</div>' +
                       '<div class="arrow-down"></div>' +
                     '</div>' +
                     '<style>' +
