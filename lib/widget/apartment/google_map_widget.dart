@@ -19,6 +19,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
   PredictionLease _predictionLease = PredictionLease();
   Completer<GoogleMapController> _controller = Completer();
   final apartmentController = Get.put(ApartmentControllerObs());
+  
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.50080871582031, 127.0368881225586),

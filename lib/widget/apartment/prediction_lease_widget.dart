@@ -13,10 +13,10 @@ class PredictionLeaseWidget extends StatelessWidget {
           return Column(
             children: [
               Text(
-                value.result == ""
+                value.rdsResult == ""
                 ? ""
-                : "입력한 데이터를 기반으로 예측된 값은"
-                  "${value.result}입니다.",
+                : "머신 러닝을 통해 예측된 카테고리 = ${value.rdsResult} \n"
+                  "분석을 통해 예측된 값 = ${value.predictResult}"
               ),
             ],
           );
