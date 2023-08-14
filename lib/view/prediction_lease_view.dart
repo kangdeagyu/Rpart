@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttermainproject/model/apartmentdata_firebase/apartment_fb.dart';
 import 'package:fluttermainproject/view/google_map_location.dart';
 import 'package:fluttermainproject/viewmodel/prediction_lease_provider.dart';
-import 'package:fluttermainproject/viewmodel/prediction_provider.dart';
 import 'package:fluttermainproject/viewmodel/prediction_sale_provider.dart';
 import 'package:fluttermainproject/widget/apartment/prediction_lease_widget.dart';
 import 'package:fluttermainproject/widget/apartment/prediction_sale_widget.dart';
@@ -26,9 +25,8 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
   TextEditingController yocController = TextEditingController();
   TextEditingController contractDateController = TextEditingController();
   TextEditingController baseRateController = TextEditingController();
-  // PredictionLease _lease = PredictionLease();
-  // PredictionSale _sale = PredictionSale();
-  Prediction _pred = Prediction();
+  PredictionLease _lease = PredictionLease();
+  PredictionSale _sale = PredictionSale();
   double distanceValue = 0.0;
   double longitude = 0.0;
   double latitude = 0.0;
@@ -54,9 +52,8 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
     if (index != null && index != "") {
       fetchApartmentData();
     }
-    // _lease.init();
-    // _sale.init();
-    _pred.init();
+    _lease.init();
+    _sale.init();
   }
 
   void fetchApartmentData() {
@@ -107,10 +104,9 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
 
   @override
   Widget build(BuildContext context) {
-    Prediction _prediction = Provider.of<Prediction>(context);
-    // PredictionLease _prediction = Provider.of<PredictionLease>(context);
-    // PredictionSale _predictionSale = Provider.of<PredictionSale>(context);
-    
+    PredictionLease _predictionLease =
+        Provider.of<PredictionLease>(context);
+    PredictionSale _predictionSale = Provider.of<PredictionSale>(context);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -454,7 +450,7 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                               );
                             } else {
                               isSale ?
-                              _prediction.predictSale(
+                              _predictionSale.predictSale(
                                 double.parse(busStationsController.text),
                                 -distanceValue,
                                 double.parse(leaseableAreaController.text),
@@ -465,7 +461,7 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                 latitude,
                                 longitude,
                               )
-                              : _prediction.predictLease(
+                              : _predictionLease.predictLease(
                                 double.parse(busStationsController.text),
                                 -distanceValue,
                                 double.parse(leaseableAreaController.text),
