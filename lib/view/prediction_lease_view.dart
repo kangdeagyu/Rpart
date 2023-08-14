@@ -26,7 +26,7 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
   TextEditingController contractDateController = TextEditingController();
   TextEditingController baseRateController = TextEditingController();
   PredictionLease _lease = PredictionLease();
-  PredictionSale _sale = PredictionSale();
+  // PredictionSale _sale = PredictionSale();
   double distanceValue = 0.0;
   double longitude = 0.0;
   double latitude = 0.0;
@@ -53,7 +53,7 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
       fetchApartmentData();
     }
     _lease.init();
-    _sale.init();
+    // _sale.init();
   }
 
   void fetchApartmentData() {
@@ -106,23 +106,23 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
   Widget build(BuildContext context) {
     PredictionLease _predictionLease =
         Provider.of<PredictionLease>(context);
-    PredictionSale _predictionSale = Provider.of<PredictionSale>(context);
+    // PredictionSale _predictionSale = Provider.of<PredictionSale>(context);
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          Text(
-            isSale ? "매매가" : "전세가"
-          ),
-          Switch(
-            value: isSale,
-            onChanged: (value) {
-              isSale = value;
-              setState(() {
-                //
-              });
-            },
-          )
-        ],
+        // actions: [
+        //   Text(
+        //     isSale ? "매매가" : "전세가"
+        //   ),
+        //   Switch(
+        //     value: isSale,
+        //     onChanged: (value) {
+        //       isSale = value;
+        //       setState(() {
+        //         //
+        //       });
+        //     },
+        //   )
+        // ],
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
@@ -276,18 +276,19 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: isSale ? 
+                          child: 
+                          // TextField(
+                          //   controller: leaseableAreaController,
+                          //   decoration: const InputDecoration(
+                          //     border: OutlineInputBorder(),
+                          //     labelText: "전용면적(㎡)을 입력해주세요.",
+                          //     suffix: Text("㎡"),
+                          //   ),
+                          //   keyboardType: const TextInputType.numberWithOptions(
+                          //       decimal: true),
+                          // )
+                          // : 
                           TextField(
-                            controller: leaseableAreaController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "전용면적(㎡)을 입력해주세요.",
-                              suffix: Text("㎡"),
-                            ),
-                            keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
-                          )
-                          : TextField(
                             controller: leaseableAreaController,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
@@ -449,19 +450,20 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                 )
                               );
                             } else {
-                              isSale ?
-                              _predictionSale.predictSale(
-                                double.parse(busStationsController.text),
-                                -distanceValue,
-                                double.parse(leaseableAreaController.text),
-                                double.parse(floorController.text),
-                                double.parse(yocController.text),
-                                double.parse(contractDateController.text),
-                                double.parse(baseRateController.text),
-                                latitude,
-                                longitude,
-                              )
-                              : _predictionLease.predictLease(
+                              // isSale ?
+                              // _predictionSale.predictSale(
+                              //   double.parse(busStationsController.text),
+                              //   -distanceValue,
+                              //   double.parse(leaseableAreaController.text),
+                              //   double.parse(floorController.text),
+                              //   double.parse(yocController.text),
+                              //   double.parse(contractDateController.text),
+                              //   double.parse(baseRateController.text),
+                              //   latitude,
+                              //   longitude,
+                              // )
+                              // : 
+                              _predictionLease.predictLease(
                                 double.parse(busStationsController.text),
                                 -distanceValue,
                                 double.parse(leaseableAreaController.text),
@@ -478,7 +480,8 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                             "분석",
                           ),
                         ),
-                        isSale ? PredictionSaleWidget() : PredictionLeaseWidget(),
+                        // isSale ? PredictionSaleWidget() : 
+                        PredictionLeaseWidget(),
                       ],
                     ),
                   ),
