@@ -19,13 +19,13 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
   _handleMapTap(LatLng latLng) async {
     double _latitude = latLng.latitude;
     double _longitude = latLng.longitude;
-    // print('Tapped Location - Latitude: $_latitude, Longitude: $_longitude');
+    print('Tapped Location - Latitude: $_latitude, Longitude: $_longitude');
     // 정류장 개수 가져오기
     var busCountUrl = Uri.parse("http://localhost:8080/busCount?xVal=$_longitude&yVal=$_latitude");
     var busRes = await http.get(busCountUrl);
     var busJson = json.decode(utf8.decode(busRes.bodyBytes));
     int busCount = busJson['result'].toInt(); // 부동 소수점 숫자를 int로 변환
-    // print("busCount = " + busCount.toString());
+    print("busCount = " + busCount.toString());
     
     // 역과의 거리 가져오기
     var distanceUrl = Uri.parse("http://localhost:8080/ShortestStation?xVal=$_longitude&yVal=$_latitude");
@@ -34,16 +34,16 @@ class _GoogleMapLocationState extends State<GoogleMapLocation> {
     var distance = distanceJson['distance'];
     String station = distanceJson['station'];
     String line = distanceJson['line'];
-    // print("distance = $distance");
-    // print("station = " + station);
-    // print("line = " + line);
+    print("distance = $distance");
+    print("station = " + station);
+    print("line = " + line);
 
     Get.back(result: [_latitude, _longitude, busCount, distance, station, line]);
   }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.50080871582031, 127.0368881225586),
-    zoom: 14,
+    zoom: 14.4746,
   );
 
   @override
