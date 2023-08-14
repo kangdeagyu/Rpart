@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttermainproject/model/apartmentdata_firebase/apartment_fb.dart';
 import 'package:fluttermainproject/view/google_map_location.dart';
+import 'package:fluttermainproject/viewmodel/prediction_lease_provider.dart';
 import 'package:fluttermainproject/viewmodel/prediction_provider.dart';
+import 'package:fluttermainproject/viewmodel/prediction_sale_provider.dart';
 import 'package:fluttermainproject/widget/apartment/prediction_lease_widget.dart';
 import 'package:fluttermainproject/widget/apartment/prediction_sale_widget.dart';
 import 'package:fluttermainproject/widget/table_calender_widget.dart';
@@ -410,11 +412,6 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                       }
                                     });
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
                                   child: const Text("날짜선택"),
                                 ),
                               ),
