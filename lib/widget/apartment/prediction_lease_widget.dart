@@ -11,13 +11,23 @@ class PredictionLeaseWidget extends StatelessWidget {
       child: Consumer<PredictionLease>(
         builder: (context, value, child) {
           return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                value.rdsResult == ""
-                ? ""
-                : "머신 러닝을 통해 예측된 카테고리 = ${value.rdsResult} \n"
-                  "분석을 통해 예측된 값 = ${value.predictResult}"
-              ),
+              value.rdsResult.isNotEmpty
+              ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "입력된 데이터를 기반으로 예측된 전세가격은",
+                  ),
+                  Text(
+                    "${value.rdsResult}입니다.\n",
+                  ),
+                ],
+              )
+              : Text(
+                "",
+              )
             ],
           );
         },),

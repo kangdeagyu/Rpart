@@ -7,6 +7,7 @@ import 'package:fluttermainproject/view/prediction_lease_view.dart';
 import 'package:fluttermainproject/viewmodel/prediction_lease_provider.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class GoogleMapWidget extends StatefulWidget {
   const GoogleMapWidget({super.key});
@@ -14,9 +15,10 @@ class GoogleMapWidget extends StatefulWidget {
   @override
   State<GoogleMapWidget> createState() => _GoogleMapWidgetState();
 }
+  late PredictionLease _predictionLease;
 
 class _GoogleMapWidgetState extends State<GoogleMapWidget> {
-  PredictionLease _predictionLease = PredictionLease();
+
   Completer<GoogleMapController> _controller = Completer();
   final apartmentController = Get.put(ApartmentControllerObs());
   
@@ -37,7 +39,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
   void _handleMapTap(LatLng latLng) {
     double latitude = latLng.latitude;
     double longitude = latLng.longitude;
-    print('Tapped Location - Latitude: $latitude, Longitude: $longitude');
+    // print('Tapped Location - Latitude: $latitude, Longitude: $longitude');
   }
 
   @override
@@ -47,6 +49,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _predictionLease = Provider.of<PredictionLease>(context, listen: false);
     return Stack(
       children: [
         SizedBox(
