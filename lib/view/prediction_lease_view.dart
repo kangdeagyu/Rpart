@@ -85,8 +85,10 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
         );
         busCount = apartmentData.stationCount;
         busStationsController.text = busCount.toString();
-        distanceValue = double.parse(apartmentData.subway).abs(); // 음수 값을 양수로 변환
-        String formattedDistance = '${distanceValue.toStringAsFixed(2)}m'; // 소수점 둘째 자리까지 표시하도록 설정
+        distanceValue =
+            double.parse(apartmentData.subway).abs(); // 음수 값을 양수로 변환
+        String formattedDistance =
+            '${distanceValue.toStringAsFixed(2)}m'; // 소수점 둘째 자리까지 표시하도록 설정
         distanceController.text = formattedDistance;
         // distanceController.text = apartmentData.subway.toString();
         leaseableAreaController.text = apartmentData.extent.toString();
@@ -204,16 +206,25 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                         longitude = value[0];
                                         latitude = value[1];
                                         busCount = value[2];
-                                        busStationsController.text = busCount.toString();
-                                        String strDistance = value[3].toString();
-                                        distanceValue = double.parse(strDistance).abs(); // 음수 값을 양수로 변환
-                                        String formattedDistance = '${distanceValue.toStringAsFixed(2)}m'; // 소수점 둘째 자리까지 표시하도록 설정
-                                        distanceController.text = formattedDistance;
+                                        busStationsController.text =
+                                            busCount.toString();
+                                        String strDistance =
+                                            value[3].toString();
+                                        distanceValue =
+                                            double.parse(strDistance)
+                                                .abs(); // 음수 값을 양수로 변환
+                                        String formattedDistance =
+                                            '${distanceValue.toStringAsFixed(2)}m'; // 소수점 둘째 자리까지 표시하도록 설정
+                                        distanceController.text =
+                                            formattedDistance;
                                         subwayName = value[4];
                                         line = value[5];
                                         print(value[0]);
                                         print(value[1]);
                                         print("value3 = ${value[3]}");
+                                        setState(() {
+                                          //
+                                        });
                                       } else {
                                         // value가 올바르지 않은 경우 처리
                                       }
@@ -236,33 +247,34 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
+                                  line.isNotEmpty ?
                                   Image.asset(
                                     line == "1호선"
-                                    ? "images/line1.png"
-                                    : line == "2호선"
-                                    ? "images/line2.png"
-                                    : line == "3호선"
-                                    ? "images/line3.png"
-                                    : line == "4호선"
-                                    ? "images/line4.png"
-                                    : line == "4호선"
-                                    ? "images/line4.png"
-                                    : line == "5호선"
-                                    ? "images/line5.png"
-                                    : line == "6호선"
-                                    ? "images/line6.png"
-                                    : line == "7호선"
-                                    ? "images/line7.png"
-                                    : line == "8호선"
-                                    ? "images/line8.png"
-                                    : line == "9호선"
-                                    ? "images/line9.png"
-                                    : line == "분당선"
-                                    ? "images/line_sin.png"
-                                    : "images/line2.png"
-                                    ,
+                                        ? "images/line1.png"
+                                        : line == "2호선"
+                                        ? "images/line2.png"
+                                        : line == "3호선"
+                                        ? "images/line3.png"
+                                        : line == "4호선"
+                                        ? "images/line4.png"
+                                        : line == "4호선"
+                                        ? "images/line4.png"
+                                        : line == "5호선"
+                                        ? "images/line5.png"
+                                        : line == "6호선"
+                                        ? "images/line6.png"
+                                        : line == "7호선"
+                                        ? "images/line7.png"
+                                        : line == "8호선"
+                                        ? "images/line8.png"
+                                        : line == "9호선"
+                                        ? "images/line9.png"
+                                        : line == "분당선"
+                                        ? "images/line_sin.png"
+                                        : "images/line2.png",
                                     width: 15,
-                                  ),
+                                  )
+                                  :
                                   const SizedBox(
                                     width: 5,
                                   ),
@@ -271,7 +283,9 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                               ),
                             ),
                             keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
+                              decimal: true,
+                            ),
+                            readOnly: true,
                           ),
                         ),
                         Padding(
@@ -295,7 +309,8 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                               suffix: Text("㎡"),
                             ),
                             keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
+                              decimal: true,
+                            ),
                           ),
                         ),
                         Padding(
@@ -307,7 +322,8 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                               labelText: "입주하실 층을 입력해주세요.",
                             ),
                             keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
+                              decimal: false,
+                            ),
                           ),
                         ),
                         Padding(
@@ -319,7 +335,8 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                               labelText: "해당 건물의 건축년도를 입력해주세요.",
                             ),
                             keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
+                              decimal: false,
+                            ),
                           ),
                         ),
                         Padding(
@@ -333,9 +350,6 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                     border: OutlineInputBorder(),
                                     labelText: "계약일자를 선택해주세요.",
                                   ),
-                                  keyboardType: const TextInputType.numberWithOptions(
-                                    decimal: true,
-                                  ),
                                   readOnly: true,
                                 ),
                               ),
@@ -343,13 +357,20 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Get.to(CalenderDatePickerWidget(), arguments: contractDateController.text)?.then((value) {
+                                    Get.to(CalenderDatePickerWidget(),
+                                            arguments:
+                                                contractDateController.text)
+                                        ?.then((value) {
                                       if (value != null) {
-                                        String strValue = value.toString().substring(0,10);
-                                        String formattedValue = strValue.replaceAll('-', ''); // 하이픈 제거
-                                        contractDateController.text = formattedValue;
+                                        String strValue =
+                                            value.toString().substring(0, 10);
+                                        String formattedValue = strValue
+                                            .replaceAll('-', ''); // 하이픈 제거
+                                        contractDateController.text =
+                                            formattedValue;
                                         double baseRate = 0.0; // 기본 금리 변수 초기화
-                                        int contractDate = int.parse(formattedValue);
+                                        int contractDate =
+                                            int.parse(formattedValue);
                                         if (contractDate >= 20230113) {
                                           baseRate = 3.5;
                                         } else if (contractDate >= 20221124) {
@@ -401,13 +422,19 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                         } else{
                                           baseRate = 1.50;
                                         }
-                                        baseRateController.text = baseRate.toString(); // 기본 금리 값을 텍스트 필드에 설정
+                                        baseRateController.text = baseRate
+                                            .toString(); // 기본 금리 값을 텍스트 필드에 설정
                                         // setState(() {
                                         //   //
                                         // });
                                       }
                                     });
                                   },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                  ),
                                   child: const Text("날짜선택"),
                                 ),
                               ),
@@ -422,8 +449,6 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                               border: OutlineInputBorder(),
                               labelText: "기준금리는 계약일을 선택하면 자동으로 계산됩니다.",
                             ),
-                            keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
                             readOnly: true,
                           ),
                         ),
