@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttermainproject/viewmodel/prediction_sale_provider.dart';
+import 'package:fluttermainproject/viewmodel/prediction_provider.dart';
 import 'package:provider/provider.dart';
 
 class PredictionSaleWidget extends StatelessWidget {
@@ -8,7 +8,7 @@ class PredictionSaleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Consumer<PredictionSale>(
+      child: Consumer<Prediction>(
         builder: (context, value, child) {
           return Column(
             children: [
