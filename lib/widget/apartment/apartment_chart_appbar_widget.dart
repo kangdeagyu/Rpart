@@ -6,11 +6,9 @@ import 'package:fluttermainproject/model/obs/apartmentcontroller.dart';
 import 'package:fluttermainproject/viewmodel/wishlist_sqlitedb.dart';
 
 class ApartmentChartWidget extends StatelessWidget {
-  final String address;
-  final String floor;
   WishlistDatabaseHandler handler = Get.put(WishlistDatabaseHandler());
 
-  ApartmentChartWidget({Key? key, required this.address, required this.floor}) : super(key: key);
+  ApartmentChartWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +64,7 @@ class ApartmentChartWidget extends StatelessWidget {
             ),
           ],
         ),
-        body: ApartmentChartBody(address: address, floor: floor),
+        body: const ApartmentChartBody(),
       ),
     );
   }

@@ -44,8 +44,4 @@ class ChartGetX extends GetxController {
 
     //update();
   }
-    void init(){
-    priceDataList = RxList<PriceData>([]);
-  }
-
 }
