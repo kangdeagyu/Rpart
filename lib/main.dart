@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:fluttermainproject/firebase_options.dart';
-import 'package:fluttermainproject/viewmodel/prediction_lease_provider.dart';
+import 'package:fluttermainproject/viewmodel/prediction_provider.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => PredictionLease(),
+      create: (context) => Prediction(),
       child: GetMaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
