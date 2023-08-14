@@ -214,6 +214,9 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                         print(value[0]);
                                         print(value[1]);
                                         print("value3 = ${value[3]}");
+                                        setState(() {
+                                          //
+                                        });
                                       } else {
                                         // value가 올바르지 않은 경우 처리
                                       }
@@ -272,6 +275,7 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                             ),
                             keyboardType: const TextInputType.numberWithOptions(
                                 decimal: true),
+                            readOnly: true,
                           ),
                         ),
                         Padding(
@@ -409,6 +413,12 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                                       }
                                     });
                                   },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    backgroundColor: Colors.white,
+                                  ),
                                   child: const Text("날짜선택"),
                                 ),
                               ),
@@ -428,56 +438,65 @@ class _PredictionLeaseViewState extends State<PredictionLeaseView> {
                             readOnly: true,
                           ),
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            if(busStationsController.text.trim().isEmpty
-                            || distanceController.text.trim().isEmpty
-                            || leaseableAreaController.text.trim().isEmpty
-                            || floorController.text.trim().isEmpty
-                            || yocController.text.trim().isEmpty
-                            || contractDateController.text.trim().isEmpty
-                            || baseRateController.text.trim().isEmpty
-                            ) {
-                              Get.snackbar(
-                                'Error', // Title
-                                '모든 데이터를 입력해주세요.',  // Content
-                                snackPosition: SnackPosition.TOP, // Position
-                                duration: const Duration(seconds: 2), // Duration
-                                // backgroundColor: Colors.yellowAccent,
-                                icon: const Icon(
-                                  Icons.warning,
-                                  color: Colors.red,
-                                )
-                              );
-                            } else {
-                              // isSale ?
-                              // _predictionSale.predictSale(
-                              //   double.parse(busStationsController.text),
-                              //   -distanceValue,
-                              //   double.parse(leaseableAreaController.text),
-                              //   double.parse(floorController.text),
-                              //   double.parse(yocController.text),
-                              //   double.parse(contractDateController.text),
-                              //   double.parse(baseRateController.text),
-                              //   latitude,
-                              //   longitude,
-                              // )
-                              // : 
-                              _predictionLease.predictLease(
-                                double.parse(busStationsController.text),
-                                -distanceValue,
-                                double.parse(leaseableAreaController.text),
-                                double.parse(floorController.text),
-                                double.parse(yocController.text),
-                                double.parse(contractDateController.text),
-                                double.parse(baseRateController.text),
-                                latitude,
-                                longitude,
-                              );
-                            }
-                          },
-                          child: const Text(
-                            "분석",
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if(busStationsController.text.trim().isEmpty
+                              || distanceController.text.trim().isEmpty
+                              || leaseableAreaController.text.trim().isEmpty
+                              || floorController.text.trim().isEmpty
+                              || yocController.text.trim().isEmpty
+                              || contractDateController.text.trim().isEmpty
+                              || baseRateController.text.trim().isEmpty
+                              ) {
+                                Get.snackbar(
+                                  'Error', // Title
+                                  '모든 데이터를 입력해주세요.',  // Content
+                                  snackPosition: SnackPosition.TOP, // Position
+                                  duration: const Duration(seconds: 2), // Duration
+                                  // backgroundColor: Colors.yellowAccent,
+                                  icon: const Icon(
+                                    Icons.warning,
+                                    color: Colors.red,
+                                  )
+                                );
+                              } else {
+                                // isSale ?
+                                // _predictionSale.predictSale(
+                                //   double.parse(busStationsController.text),
+                                //   -distanceValue,
+                                //   double.parse(leaseableAreaController.text),
+                                //   double.parse(floorController.text),
+                                //   double.parse(yocController.text),
+                                //   double.parse(contractDateController.text),
+                                //   double.parse(baseRateController.text),
+                                //   latitude,
+                                //   longitude,
+                                // )
+                                // : 
+                                _predictionLease.predictLease(
+                                  double.parse(busStationsController.text),
+                                  -distanceValue,
+                                  double.parse(leaseableAreaController.text),
+                                  double.parse(floorController.text),
+                                  double.parse(yocController.text),
+                                  double.parse(contractDateController.text),
+                                  double.parse(baseRateController.text),
+                                  latitude,
+                                  longitude,
+                                );
+                              }
+                            },
+                          style: ElevatedButton.styleFrom(  
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            backgroundColor: Colors.white,
+                          ),
+                            child: const Text(
+                              "분석",
+                            ),
                           ),
                         ),
                         // isSale ? PredictionSaleWidget() : 

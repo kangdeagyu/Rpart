@@ -7,6 +7,7 @@ import 'package:fluttermainproject/view/prediction_lease_view.dart';
 import 'package:fluttermainproject/viewmodel/prediction_lease_provider.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class GoogleMapWidget extends StatefulWidget {
   const GoogleMapWidget({super.key});
@@ -16,7 +17,7 @@ class GoogleMapWidget extends StatefulWidget {
 }
 
 class _GoogleMapWidgetState extends State<GoogleMapWidget> {
-  PredictionLease _predictionLease = PredictionLease();
+  late PredictionLease _predictionLease;
   Completer<GoogleMapController> _controller = Completer();
   final apartmentController = Get.put(ApartmentControllerObs());
   
@@ -47,6 +48,9 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    _predictionLease = Provider.of<PredictionLease>(context);
+
     return Stack(
       children: [
         SizedBox(
@@ -100,6 +104,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
                       infoWindow: InfoWindow(
                         title: apartmentData.apartmentName,
                         onTap: () {
+                          _predictionLease.init;
                           goToPredictPage(apartmentData.id);
                         },
                       ),
@@ -108,7 +113,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
                 }
               }
               return GoogleMap(
-                mapType: MapType.normal,
+                mapType: MapType.hybrid,
                 initialCameraPosition: _kGooglePlex,
                 onCameraMove: (_) {},
                 markers: Set<Marker>.of(_marker),

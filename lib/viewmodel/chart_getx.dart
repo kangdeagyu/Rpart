@@ -8,7 +8,7 @@ class ChartGetX extends GetxController {
   RxList<PriceData> priceDataList = RxList<PriceData>([]);
 
   Future<void> getChartJSON(String address, String floor) async {
-    var url = Uri.parse('http://192.168.0.7:8080/getPrice?address=$address&floor=$floor');
+    var url = Uri.parse('http://localhost:8080/getPrice?address=$address&floor=$floor');
     var response = await http.get(url);
     var dataConvertedJSON = json.decode(utf8.decode(response.bodyBytes));
 
