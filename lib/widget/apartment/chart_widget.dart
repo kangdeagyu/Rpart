@@ -17,6 +17,7 @@ class ChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ChartGetX controller = Get.put(ChartGetX());
+    controller.init();
 
     return GetBuilder<ChartGetX>(
       builder: (controller) {
@@ -33,12 +34,13 @@ class ChartWidget extends StatelessWidget {
             return SfCartesianChart(
               primaryXAxis: CategoryAxis(),
               // 타이틀
-              title: ChartTitle(text: '최근 2년 전세금 현황'),
+              title: ChartTitle(text: '최근 2년 매매 거래가격 현황'),
               // 범례
               legend: const Legend(isVisible: false),
               // 데이터 입력
               series: <LineSeries<PriceData, String>>[
                 LineSeries<PriceData, String>(
+                    //dataSource: controller.priceDataList,
                     dataSource: controller.priceDataList,
                   // x, y 축
                   xValueMapper: (PriceData data, _) => data.yearMonth,

@@ -28,6 +28,10 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
   List lease = [];
   // markersid
   int num = 0;
+  // chartaddress
+  List chartAddress = [];
+  // chartfloor
+  List chartFloor = [];
 
   ApartmentLease _apartmentLease = ApartmentLease();
   
@@ -105,7 +109,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                 uniqueRoadNames.add(apartmentData.rodeName);
                 // 분석 데이터 가져오기
                 fetchLeasePrediction(apartmentData);
-                print(1);
+
                 markers.add(
                   Marker(
                     latLng: LatLng(double.parse(apartmentData.y), double.parse(apartmentData.x)),
@@ -117,6 +121,9 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     markerId: num.toString(),
                   ),
                 );
+
+                chartAddress.add(apartmentData.streetAddress);
+                chartFloor.add(apartmentData.floor);
                 num++;
               }
               
@@ -134,7 +141,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     latLng: LatLng(marker.latLng.latitude, marker.latLng.longitude), 
                     content: '<div class="message-box" style="background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; position: relative;">' +
                       '<div class="box-title">${marker.infoWindowContent}</div>' +
-                      '<div class="box-content">${lease.isNotEmpty ? lease[int.parse(marker.markerId)] != "R Error" ? lease[int.parse(marker.markerId)] : '' : null}</div>' +
+                      '<div class="box-content">${lease.isNotEmpty && int.parse(marker.markerId) < lease.length ? lease[int.parse(marker.markerId)] != "R Error" ? lease[int.parse(marker.markerId)] : '' : ''}</div>' +
                       '<div class="arrow-down"></div>' +
                     '</div>' +
                     '<style>' +
@@ -167,7 +174,7 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
                     context: context,
                     isScrollControlled: true,
                     builder: (context) {
-                      return ApartmentChartWidget();
+                      return ApartmentChartWidget(address: chartAddress[int.parse(markerId)], floor: chartFloor[int.parse(markerId)].toString());
                     },
                   );
                 },
@@ -217,5 +224,6 @@ class _ApartmentWidgetMapState extends State<ApartmentWidgetMap> {
       ));
   }
 }
+
 
 
