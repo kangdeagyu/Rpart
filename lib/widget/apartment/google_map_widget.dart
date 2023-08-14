@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttermainproject/model/apartmentdata_firebase/apartment_fb.dart';
 import 'package:fluttermainproject/model/obs/apartmentcontroller.dart';
 import 'package:fluttermainproject/view/prediction_lease_view.dart';
-import 'package:fluttermainproject/viewmodel/prediction_provider.dart';
+import 'package:fluttermainproject/viewmodel/prediction_lease_provider.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +15,7 @@ class GoogleMapWidget extends StatefulWidget {
   @override
   State<GoogleMapWidget> createState() => _GoogleMapWidgetState();
 }
-  late Prediction _predictionLease;
+  late PredictionLease _predictionLease;
 
 class _GoogleMapWidgetState extends State<GoogleMapWidget> {
 
@@ -49,7 +49,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _predictionLease = Provider.of<Prediction>(context, listen: false);
+    _predictionLease = Provider.of<PredictionLease>(context, listen: false);
     return Stack(
       children: [
         SizedBox(
