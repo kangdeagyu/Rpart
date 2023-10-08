@@ -1,6 +1,7 @@
 # Real Estate Lease Forecast
 
-### 2023년 1월 ~ 6월 거래가 데이터 기반으로 R programing 분석 기반 전세 예측 앱입니다. \n MVVM 패턴으로 작성
+### 2023년 1월 ~ 6월 거래가 데이터 기반으로 R programing 분석 기반 전세 예측 앱입니다. 
+### MVVM 패턴으로 작성
 
 ### API Github Link
 <a href=https://github.com/Ethan-OH/Team4-Real-Estate-Spring>Spring API Github Link</a>
